@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+// Mongoose model for bike journeys
+// The attributes need to be identical to the headers on the csv files
 const journeySchema = mongoose.Schema({
     Departure: {
         type: String,

@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 
+// Mongoose model for bike station
+// The attributes need to be identical to the headers on the csv files
+
 const stationSchema = mongoose.Schema({
     FID: {
         type: Number,
