@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "csvtojson": "^2.0.10",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "fast-csv": "^4.3.6",
+    "mongoose": "^6.4.6",
+    "nodemon": "^2.0.19"
+  },
+  "name": "solitadevacademy2022",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tadvepio/SolitaDevAcademy2022.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tadvepio/SolitaDevAcademy2022/issues"
+  },
+  "homepage": "https://github.com/tadvepio/SolitaDevAcademy2022#readme",
+  "description": ""
+}
