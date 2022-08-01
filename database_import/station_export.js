@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 dotenv.config({path:__dirname+'/.env'});
 const fastcsv = require("fast-csv");
 const fs = require('fs');
-const journey = require("./models/journey.js");
+const station = require("./models/station.js");
 
 const app = express();
 
@@ -25,35 +25,23 @@ database.on('error', (error) => {
 })
 database.on('connected', ()=> {
     console.log("Database Connected");
-    let count = 0
-    let discard = 0
-    let stream = fs.createReadStream("2021-07_filtered.csv")
+    let stream = fs.createReadStream("Helsingin_ja_Espoon_kaupunkipy%C3%B6r%C3%A4asemat_avoin (1).csv")
     let csvData = [];
     let csvStream = fastcsv
     .parse({ headers: true, ignoreEmpty: true })
-    .validate( data => parseInt(data['Duration (sec.)']) >= 10 && parseInt(data['Covered distance (m)']) >= 10)
     .on("data", async function(data) {
-        ++count
             csvData.push({
                 ... data
             });
-        
-        if (count >= 1000){
-            csvStream.pause();
-            await journey.insertMany(csvData)
-            csvData = [];
-            count = 0;
-            csvStream.resume();
         }
-    })
-    .on('data-invalid', () => ++discard)
+    )
     .on('error', function(err) {
         console.log(err)
     })
     .on("end", async (rowCount) => {
-        await journey.insertMany(csvData);
+        await station.insertMany(csvData);
         csvData = [];
-        console.log("All done.\nAdded "+(rowCount-discard)+" documents to mongo and discarded: "+discard+" rows.")
+        console.log("All done.\nAdded "+(rowCount)+" documents to mongo.")
     });
 
 stream.pipe(csvStream);
