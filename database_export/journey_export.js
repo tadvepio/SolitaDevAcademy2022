@@ -25,25 +25,25 @@ database.on('error', (error) => {
 })
 database.on('connected', ()=> {
     console.log("Database Connected");
-    // After succesful connection, create variables and start the csv stream
+    // After succesful connection create variables
     let count = 0
     let discard = 0
     // stream the csv file through fs
-    let stream = fs.createReadStream("journeydata.csv")
+    let stream = fs.createReadStream("2021-07_filtered.csv")
     let csvData = [];
     let csvStream = fastcsv
     // headers: true removes the first line of csv and ignoreEmpty ignores empty lines
     .parse({ headers: true, ignoreEmpty: true })
     // Discard rows that do not meet the requirements
-    .validate( data => parseInt(data['Duration (sec.)']) >= 10 && parseInt(data['Covered distance (m)']) >= 10)
+    .validate( data => parseInt(data['Duration (sec)']) >= 10 && parseInt(data['Covered distance (m)']) >= 10)
     .on("data", async function(data) {
         ++count
             csvData.push({
                 ... data
             });
     // To keep node from boiling over, the maximum simultaneous processess is 1000.
-    // After the count reaches maximum, pause the stream, send the rows to mongo as separate documents
-    // and resume to stream after sending is done. 
+    // After the count reaches maximum, pause the stream, save the rows to mongo as documents
+    // and resume to stream after the async operation is done. 
         if (count >= 1000){
             csvStream.pause();
             await journey.insertMany(csvData)

@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 
 // Mongoose model for bike journeys
 // The attributes need to be identical to the headers on the csv files
+
+// The default is undefined, because some of the rows in csv file have missing values.
+// Rather than discardin the row add it with the missing value, ie. missing duration(sec)
 const journeySchema = mongoose.Schema({
     Departure: {
         type: String,
@@ -31,7 +34,7 @@ const journeySchema = mongoose.Schema({
         type: Number,
         default: undefined
     },
-    "Duration (sec.)": {
+    "Duration (sec)": {
         type: Number,
         default: undefined
     }
