@@ -31,7 +31,7 @@ const journeySchema = mongoose.Schema({
         type: Number,
         default: undefined
     },
-    "Duration (sec.)": {
+    "Duration (sec)": {
         type: Number,
         default: undefined
     }
