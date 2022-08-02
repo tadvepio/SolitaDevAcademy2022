@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Row, Card, Button, Collapse, Table } from "react-bootstrap";
 
 function JourneyList() {
 
@@ -6,21 +8,24 @@ function JourneyList() {
     const [list, setList] = useState();
     
     useEffect(() => {
-    console.log(page)
-    fetch(`http://localhost:9000/journeys?page=${page}&limit=20`)
-    .then((res) => res.json())
-    .then((data) => setList(data.results))
+        fetch(`http://localhost:9000/journeys?page=${page}&limit=20`)
+        .then((res) => res.json())
+        .then((data) => setList(data.results))
     },[page])
 
-    const nextJourneys = () => {
-    setPage(page+1)
+    const nextJourneys = (change) => {
+        if((page+change) <= 0) {
+            
+        } else {
+            setPage(page+(change))
+        }
     }
 
     return (
     <>
+    <Container className="text-center">
     <h1>Journey list</h1>
-    <p>Page: {page}</p>
-        <table>
+        <Table>
         <tbody>
         <tr>
             <th>Departure station</th>
@@ -39,9 +44,12 @@ function JourneyList() {
         : (<tr><td>Loading</td></tr>)
     }
     </tbody>
-        </table>
+        </Table>
 
-    <button onClick={nextJourneys}>Next</button>
+    <button onClick={()=>nextJourneys(-1)}>Previous</button>
+    <p>Page: {page}</p>
+    <button onClick={()=>nextJourneys(1)}>Next</button>
+    </Container>
     </>
     );
 }
