@@ -65,7 +65,7 @@ router.get('/', async (req,res) => {
     mostPopular(departures, "Return station name");
     mostPopular(returns, "Departure station name");
 
-    res.send(res.stationDetails)
+    res.json(res.stationDetails)
 
     });
 

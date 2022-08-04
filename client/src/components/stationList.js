@@ -6,7 +6,6 @@ function StationList() {
 
     const [page, setPage ] = useState(1)
     const [list, setList] = useState([]);
-    const [openCard, setOpenCard] = useState(false);
     
     useEffect(() => {
         fetch(`http://localhost:9000/stations?page=${page}&limit=20`)
