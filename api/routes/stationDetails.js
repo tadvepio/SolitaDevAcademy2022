@@ -55,9 +55,9 @@ router.get('/', async (req,res) => {
         var top5 = returnCount1.splice(-5)
 
         if (string === "Return station name") {
-            res.stationDetails.mostPopularReturn = top5;
+            res.stationDetails.mostPopularReturn = top5.slice(0).reverse();
         } else {
-            res.stationDetails.mostPopularDeparture = top5;
+            res.stationDetails.mostPopularDeparture = top5.slice(0).reverse();
         }
         
     }
