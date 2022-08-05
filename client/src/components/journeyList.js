@@ -11,17 +11,20 @@ function JourneyList() {
     const [loading, setLoading] = useState(true);
     const [stationRecommendations, setStationRecommendations] = useState();
     const [inputChange, setInputChange] = useState('')
-    const [showSearch, setShowSearch] = useState(false)
     const [sort, setSort] = useState('')
 
     const searchEl = useRef();
     
     useEffect(() => {
-        fetch(`http://localhost:9000/journeys?page=${page}&limit=20`)
-        .then((res) => res.json())
-        .then((data) => setList(data.results))
-        setLoading(false)
-    },[page])
+        setLoading(true)
+        const fetchData = async () => {
+            await fetch(`http://localhost:9000/journeys?page=${page}&limit=20`)
+            .then((res) => res.json())
+            .then((data) => setList(data.results))
+            setLoading(false)
+        }
+        fetchData()
+    },[])
 
     const nextJourneys = async (change) => {
         setLoading(true)
@@ -29,13 +32,24 @@ function JourneyList() {
             setLoading(false)
         } else {
             setPage(page+(change))
-            setLoading(false)
+            setLoading(true)
+            console.log(sort)
+            const response = await fetch(`http://localhost:9000/journeys?page=${page+(change)}&limit=20&sort=${sort}`, {
+                method: "POST",
+                mode: 'cors',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(form)
+            })
+            const data = await response.json()
+            setList(data.results)
+            setLoading(false);
         }
     }
 
     const search = async (e) => {
         e.preventDefault();
         setLoading(true)
+        setPage(1)
         console.log(sort)
         const response = await fetch(`http://localhost:9000/journeys?page=${page}&limit=20&sort=${sort}`, {
             method: "POST",
@@ -72,7 +86,6 @@ function JourneyList() {
         } else {
             setStationRecommendations([])
         }
-        console.log(form)
     }
 
     const handleField = (v,n) => {
@@ -84,27 +97,25 @@ function JourneyList() {
             ...formCopy
         }));
         setStationRecommendations([])
-        console.log(form)
     }
 
     return (
     <>
     <Container className="text-center">
     <h1>Journey list</h1>
-    <Button onClick={()=>setShowSearch(!showSearch)}>FindIcon</Button>
-    {showSearch ? 
+ 
     <Form ref={searchEl} onSubmit={search}>
     <Row>
+
+        {/* Departure and return station input fields */}
         <Col>
         <Form.Label>Departure station</Form.Label>
         <Form.Control type="text" 
                     autoComplete="off" 
                     name="Departure station name" 
                     value={form.DepartureName} 
-                    placeholder="Station name"
-                    
+                    placeholder="Departure station"
                     onChange={(e) => handleChange(e)} />
-
             {stationRecommendations && inputChange ==='Departure station name' ? 
             <ListGroup>
                 {stationRecommendations.map((item, index) => 
@@ -116,7 +127,7 @@ function JourneyList() {
         </Col>
         <Col>
         <Form.Label>Return station</Form.Label>
-        <Form.Control type="text" autoComplete="off" name="Return station name" value={form.ReturnName} placeholder="Station name" onChange={(e) => handleChange(e)}/>
+        <Form.Control type="text" autoComplete="off" name="Return station name" value={form.ReturnName} placeholder="Return station" onChange={(e) => handleChange(e)}/>
         {stationRecommendations && inputChange==='Return station name' ? 
             <ListGroup>
                 {stationRecommendations.map((item, index) => 
@@ -126,15 +137,18 @@ function JourneyList() {
             <></>
         }
         </Col>
+
+        {/* Sort field */}
         <Col>
                 <Form.Label>Sort by</Form.Label>
-                <Form.Select name="sort" onChange={(e)=>setSort(e.target.value)}>
-                    <option value="Departure station name">Departure station</option>
-                    <option value="Return station name">Return station</option>
+                <Form.Select name="sort" onChange={(e)=>setSort(e.target.value)} defaultValue="-">
+                    <option>-</option>
                     <option value="Covered distance (m)">Distance</option>
                     <option value="Duration (sec)">Duration</option>
                 </Form.Select>
         </Col>
+
+        {/* Filter by distance and/or duration */}
         <Row>
             <h2>Filters</h2>
         </Row>
@@ -165,47 +179,54 @@ function JourneyList() {
         </Row>
     </Row>
 </Form>
- : <></>
-    }
+
     {loading ? <LoadingSpinner /> :
-    <>
-    <Row>
-            <Col>    <Button onClick={()=>nextJourneys(-1)}>Previous</Button>
+    <Container>
+        {list.length ?
+        <>
+            <Row>
+            <Col>
+                <Button onClick={()=>nextJourneys(-1)}>Previous</Button>
             </Col>
             <Col>
-            <p>Page: {page}</p>
+                <p>Page: {page}</p>
             </Col>
-            <Col><Button onClick={()=>nextJourneys(1)}>Next</Button></Col>
+            <Col>
+                <Button onClick={()=>nextJourneys(1)}>Next</Button>
+            </Col>
         </Row>
             <Table>
-        <tbody>
-        <tr>
-            <th>Departure station</th>
-            <th>Return station</th>
-            <th>{'Covered distance'}</th>
-            <th>{'Duration'}</th>
-        </tr>
-        {list ? list.map((item, index) => 
-        <tr key={index}>
-            <td>{item['Departure station name']}</td>
-            <td>{item['Return station name']}</td>
-            <td>{parseFloat(item['Covered distance (m)'])/1000} km</td>
-            <td>{parseFloat(item['Duration (sec)']/60).toFixed(2)} minutes</td>
-        </tr>
-        )
-        : (<LoadingSpinner />)
-    }
-    </tbody>
-        </Table>
-        <Row>
-            <Col>    <Button onClick={()=>nextJourneys(-1)}>Previous</Button>
+            <tbody>
+            <tr>
+                <th>Departure station</th>
+                <th>Return station</th>
+                <th>{'Covered distance'}</th>
+                <th>{'Duration'}</th>
+            </tr>
+            {list.map((item, index) => 
+            <tr key={index}>
+                <td>{item['Departure station name']}</td>
+                <td>{item['Return station name']}</td>
+                <td>{parseFloat(item['Covered distance (m)']/1000).toFixed(3)} km</td>
+                <td>{parseFloat(item['Duration (sec)']/60).toFixed(2)} minutes</td>
+            </tr>)}
+            </tbody>
+            </Table>
+            <Row>
+            <Col>
+                <Button onClick={()=>nextJourneys(-1)}>Previous</Button>
             </Col>
             <Col>
             <p>Page: {page}</p>
             </Col>
-            <Col><Button onClick={()=>nextJourneys(1)}>Next</Button></Col>
-        </Row>
-    </>
+            <Col>
+                <Button onClick={()=>nextJourneys(1)}>Next</Button>
+            </Col>
+        </Row> 
+            </>
+            
+        : (<p>No results</p>)}
+    </Container>
 
     }
     </Container>
