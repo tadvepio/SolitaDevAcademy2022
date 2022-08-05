@@ -9,6 +9,7 @@ var indexRouter = require('./routes/index');
 var stationRouter = require('./routes/stations');
 var journeyRouter = require('./routes/journeys');
 var stationDetails = require('./routes/stationDetails');
+var stationSearch = require('./routes/stationSearch');
 
 var app = express();
 
@@ -28,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/details', stationDetails);
 app.use('/stations', stationRouter);
+app.use('/search', stationSearch);
 app.use('/journeys', journeyRouter);
 
 // catch 404 and forward to error handler
