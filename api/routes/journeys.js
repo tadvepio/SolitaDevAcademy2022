@@ -8,4 +8,8 @@ router.get('/', paginatedResults(Journey), (req, res) => {
     res.json(res.paginatedResults);
 });
 
+router.post('/', paginatedResults(Journey),(req,res) => {
+    res.json(res.paginatedResults);
+})
+
 module.exports = router;
