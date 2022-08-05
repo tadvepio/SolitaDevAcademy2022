@@ -10,7 +10,12 @@ module.exports = function paginatedResults(model) {
             fields = req.body;
             req.query.sort ? sort[req.query.sort] = -1 :
             console.log(fields)
-        } 
+        }
+
+        console.log(model.collection.collectionName)
+        if (req.method === 'GET' && model.collection.collectionName === 'stations'){
+            sort['Nimi'] = 1
+        }
 
         const startIndex = (page - 1) * limit
         const endIndex = page * limit

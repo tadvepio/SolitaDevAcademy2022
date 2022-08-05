@@ -6,7 +6,7 @@ var Station = require('../models/station');
 router.post('/', async (req, res) => {
     const string = req.body.value.charAt(0).toUpperCase() + req.body.value.slice(1)
     const regexp = new RegExp("^"+string)
-    const recommendations = await Station.find({Nimi: regexp }).select('Nimi')
+    const recommendations = await Station.find({Nimi: regexp }).sort({'Nimi': 1})
     res.results = recommendations
     res.json(res.results)
 });
