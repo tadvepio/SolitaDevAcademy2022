@@ -1,0 +1,11 @@
+{
+    "journeys": "Matka haku",
+    "departureStation": "Lähtöasema",
+    "ReturnStation": "Paluuasema",
+    "Covered distance": "Matkan pituus",
+    "Duration": "Matkan kesto",
+    "Sort": "Järjestä",
+    "Search": "Hae",
+    "previous": "Edellinen",
+    "next": "Seuraava"
+}

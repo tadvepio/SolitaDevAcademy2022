@@ -1,14 +1,17 @@
 import React, {  useState } from 'react';
 import LoadingSpinner from './loadingSpinner';
-import { Card, Button, Collapse, Col, ListGroup, Row } from "react-bootstrap";
+import { Card, Button, Collapse, Col, ListGroup, Row, Table } from "react-bootstrap";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import '../styles/leaflet.css'
+import '../styles/leaflet.css';
+import { useTranslation } from 'react-i18next';
 
 function SingleStation(item) {
 
     const [openCard, setOpenCard] = useState(false);
     const [details, setDetails] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    const { t, i18n } = useTranslation("stations");
 
     const getDetails = async (stationId) => {
         if (openCard) { setOpenCard(!openCard) }
@@ -38,29 +41,67 @@ function SingleStation(item) {
                 <>
                 <Row>
                 <Col>
-                <ListGroup>
-                    <ListGroup.Item as="li">ID: {details.stationId}</ListGroup.Item>
-                    <ListGroup.Item as="li">Number of journeys starting here: {details.numOfDep}</ListGroup.Item>
-                    <ListGroup.Item as="li">Number of journeys ending here: {details.numOfRet}</ListGroup.Item>
-                    <ListGroup.Item as="li">Average Distance when departed: {parseFloat(details.AvgDepDistance/1000).toFixed(2)} km</ListGroup.Item>
-                    <ListGroup.Item as="li">Average distance when returned: {parseFloat(details.AvgRetDistance/1000).toFixed(2)} km</ListGroup.Item>
-                </ListGroup>
+                <h3>{t("detailsHead")}</h3>
+                <Table responsive>
+                    <thead>
+                        <tr>
+                            <th>
+                            {t("details.start")}
+                            </th>
+                            <th>{t("details.end")}</th>
+                            <th>{t("details.avgdistDep")}</th>
+                            <th>{t("details.avgdistRet")}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{details.numOfDep}</td>
+                            <td>{details.numOfRet}</td>
+                            <td>{parseFloat(details.AvgDepDistance/1000).toFixed(2)} km</td>
+                            <td>{parseFloat(details.AvgRetDistance/1000).toFixed(2)} km</td>
+                        </tr>
+                    </tbody>
+                </Table>
                 </Col>
                 <Col>
-                    <ListGroup>
+                <h3>{t("top5ending")}</h3>
+                <Table>
+                    <thead>
+                        <tr>
+                            <th>{t("name")}</th>
+                            <th>{t("departures")}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         {details.mostPopularDeparture.map((item, i) =>
-                            <ListGroup.Item key={i}>Name: {item[0]} Departure: {item[1]}</ListGroup.Item>
+                            <tr key={i}>
+                                <td>{item[0]}</td>
+                                <td>{item[1]}</td>
+                            </tr>
                             )
                         }
-                    </ListGroup>
+                    </tbody>
+                </Table>
                 </Col>
                 <Col>
-                    <ListGroup>
+                <h3>{t("top5start")}</h3>
+                <Table>
+                    <thead>
+                        <tr>
+                            <th>{t("name")}</th>
+                            <th>{t("returns")}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         {details.mostPopularReturn.map((item, i) =>
-                            <ListGroup.Item key={i}>Name: {item[0]} Departure: {item[1]}</ListGroup.Item>
+                            <tr key={i}>
+                                <td>{item[0]}</td>
+                                <td>{item[1]}</td>
+                            </tr>
                             )
                         }
-                    </ListGroup>
+                    </tbody>
+                </Table>
                 </Col>
                 </Row>
                 <Row className="px-3 mt-2" style={{display: 'flex', justifyContent: "center"}}>

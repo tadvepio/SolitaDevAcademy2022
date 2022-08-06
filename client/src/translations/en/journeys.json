@@ -1,0 +1,11 @@
+{
+    "journeys": "Journey search",
+    "departureStation": "Departure station",
+    "ReturnStation": "Return station",
+    "Covered distance": "Covered distance",
+    "Duration": "Duration",
+    "Sort": "Sort by",
+    "Search": "Find",
+    "previous": "Edellinen",
+    "next": "Seuraava"
+}

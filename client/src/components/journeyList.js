@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoadingSpinner from './loadingSpinner';
 import { Container, Form, Col, Row, Table, Button, ListGroup } from "react-bootstrap";
+import { useTranslation } from 'react-i18next';
 
 function JourneyList() {
 
@@ -15,6 +16,8 @@ function JourneyList() {
 
     const searchEl = useRef();
     
+    const { t, i18n } = useTranslation("journeys");
+
     useEffect(() => {
         setLoading(true)
         const fetchData = async () => {
@@ -24,6 +27,7 @@ function JourneyList() {
             setLoading(false)
         }
         fetchData()
+        console.log(list)
     },[])
 
     const nextJourneys = async (change) => {
@@ -101,20 +105,18 @@ function JourneyList() {
 
     return (
     <>
-    <Container className="text-center">
-    <h1>Journey list</h1>
- 
-    <Form ref={searchEl} onSubmit={search}>
-    <Row>
-
+    <Container className="text-center bg-white">
+    <Form ref={searchEl} onSubmit={search} className="mb-5 bg-light p-5 rounded">
+    <Row className="bg-dark rounded p-4">
+    <Row style={{fontSize: '35px'}} className="mb-3 text-light d-flex justify-content-center">{t("journeys")}</Row>
         {/* Departure and return station input fields */}
         <Col>
-        <Form.Label>Departure station</Form.Label>
+        <Form.Label className="text-light">{t("departureStation")}</Form.Label>
         <Form.Control type="text" 
                     autoComplete="off" 
                     name="Departure station name" 
                     value={form.DepartureName} 
-                    placeholder="Departure station"
+                    placeholder={t("departureStation")}
                     onChange={(e) => handleChange(e)} />
             {stationRecommendations && inputChange ==='Departure station name' ? 
             <ListGroup>
@@ -126,8 +128,8 @@ function JourneyList() {
         }
         </Col>
         <Col>
-        <Form.Label>Return station</Form.Label>
-        <Form.Control type="text" autoComplete="off" name="Return station name" value={form.ReturnName} placeholder="Return station" onChange={(e) => handleChange(e)}/>
+        <Form.Label className="text-light">{t("ReturnStation")}</Form.Label>
+        <Form.Control type="text" autoComplete="off" name="Return station name" value={form.ReturnName} placeholder={t("ReturnStation")} onChange={(e) => handleChange(e)}/>
         {stationRecommendations && inputChange==='Return station name' ? 
             <ListGroup>
                 {stationRecommendations.map((item, index) => 
@@ -140,16 +142,18 @@ function JourneyList() {
 
         {/* Sort field */}
         <Col>
-                <Form.Label>Sort by</Form.Label>
+                <Form.Label className="text-light">{t("Sort")}</Form.Label>
                 <Form.Select name="sort" onChange={(e)=>setSort(e.target.value)} defaultValue="-">
                     <option>-</option>
-                    <option value="Covered distance (m)">Distance</option>
-                    <option value="Duration (sec)">Duration</option>
+                    <option value="Covered distance (m)">{t("Covered distance")}</option>
+                    <option value="Duration (sec)">{t("Duration")}</option>
                 </Form.Select>
         </Col>
-
-        {/* Filter by distance and/or duration */}
         <Row>
+        <Col className="mt-5"><Button variant="light" type="submit" className="">{t("Search")}</Button></Col>
+        </Row>
+        {/* Filter by distance and/or duration */}
+        {/* <Row>
             <h2>Filters</h2>
         </Row>
         <Row>
@@ -176,7 +180,7 @@ function JourneyList() {
             <Col>
         <Button type="submit">Search</Button>
         </Col>
-        </Row>
+        </Row> */}
     </Row>
 </Form>
 
@@ -186,22 +190,22 @@ function JourneyList() {
         <>
             <Row>
             <Col>
-                <Button onClick={()=>nextJourneys(-1)}>Previous</Button>
+                <Button onClick={()=>nextJourneys(-1)}>{t("previous")}</Button>
             </Col>
             <Col>
                 <p>Page: {page}</p>
             </Col>
             <Col>
-                <Button onClick={()=>nextJourneys(1)}>Next</Button>
+                <Button onClick={()=>nextJourneys(1)}>{t("next")}</Button>
             </Col>
         </Row>
-            <Table>
+            <Table striped responsive="lg">
             <tbody>
             <tr>
-                <th>Departure station</th>
-                <th>Return station</th>
-                <th>{'Covered distance'}</th>
-                <th>{'Duration'}</th>
+                <th>{t("departureStation")}</th>
+                <th>{t("ReturnStation")}</th>
+                <th>{t('Covered distance')}</th>
+                <th>{t('Duration')}</th>
             </tr>
             {list.map((item, index) => 
             <tr key={index}>
@@ -214,13 +218,13 @@ function JourneyList() {
             </Table>
             <Row>
             <Col>
-                <Button onClick={()=>nextJourneys(-1)}>Previous</Button>
+                <Button onClick={()=>nextJourneys(-1)}>{t("previous")}</Button>
             </Col>
             <Col>
             <p>Page: {page}</p>
             </Col>
             <Col>
-                <Button onClick={()=>nextJourneys(1)}>Next</Button>
+                <Button onClick={()=>nextJourneys(1)}>{t("next")}</Button>
             </Col>
         </Row> 
             </>

@@ -2,25 +2,28 @@ import React, { useEffect, useState } from 'react';
 import { Form, Row, Col, Button } from "react-bootstrap";
 import LoadingSpinner from './loadingSpinner';
 import SingleStation from './singleStation';
+import { useTranslation } from 'react-i18next';
 
 function StationList() {
 
     const [page, setPage ] = useState(1)
     const [list, setList] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    const { t, i18n } = useTranslation("stations");
     
     useEffect(() => {
         fetch(`http://localhost:9000/stations?page=${page}&limit=20&sort=Name`)
         .then((res) => res.json())
         .then((data) => setList(data.results))
-    },[])
+    },[page])
 
-    const nextStations = (change) => {
+    const nextStations = async (change) => {
         if((page+change) <= 0) {
             
         } else {
             setPage(page+(change))
-            fetch(`http://localhost:9000/stations?page=${page+change}&limit=20&sort=Name`)
+            await fetch(`http://localhost:9000/stations?page=${page+change}&limit=20&sort=Name`)
             .then((res)=>res.json())
             .then((data) => setList(data.results))
         }
@@ -44,12 +47,12 @@ function StationList() {
 
     return (
     <>
-    <h1>Station list</h1>
+    <h1>{t("header")}</h1>
     <Form className="mb-5">
         <Row>
             <Col>
-            <Form.Label>Filter station name</Form.Label>
-            <Form.Control type="text" placeholder="Station name" onChange={(e)=>handleChange(e)}/>
+            <Form.Label>{t("filter")}</Form.Label>
+            <Form.Control type="text" placeholder={t("stationName")} onChange={(e)=>handleChange(e)}/>
             </Col>
         </Row>
     </Form>

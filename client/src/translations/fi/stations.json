@@ -1,0 +1,19 @@
+{
+    "header": "Asemat",
+    "filter": "Suodata nimen mukaan",
+    "detailsHead": "Yksityiskohdat",
+    "top5ending": "5 suosituinta asemaa jotka päättyvät tänne",
+    "top5start": "5 suosituinta asemaa jotka alkavat täältä",
+    "details":{
+        "start":"Lähtöjä",
+        "end":"Palautuksia",
+        "avgdistDep":"Keskiverto matkan pituus kun lähdetty",
+        "avgdistRet":"Keskiverto matkan pituus kun palautettu"
+    },
+    "name": "Nimi",
+    "departures": "Lähdöt",
+    "returns": "Palautukset",
+    "previous": "Edellinen",
+    "next": "Seuraava",
+    "stationName": "Aseman nimi"
+}

@@ -1,0 +1,19 @@
+{
+    "header": "Stations",
+    "filter": "Filtrera efter namn",
+    "detailsHead": "Detalj",
+    "top5ending": "Topp 5 stationer som slutar här",
+    "top5start": "Topp 5 stationer som börjar här",
+    "details":{
+        "start":"Avgångar",
+        "end":"Returnerar",
+        "avgdistDep":"Genomsnittlig längd på resan efter avgång",
+        "avgdistRet":"Genomsnittlig tillryggalagd sträcka vid retur"
+    },
+    "name": "Namn",
+    "departures": "Avgångar",
+    "returns": "Returerar",
+    "previous": "Tidigare",
+    "next": "Nästa",
+    "stationName": "Station namn"
+}

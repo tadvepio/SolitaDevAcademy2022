@@ -1,0 +1,19 @@
+{
+    "header": "List of stations",
+    "filter": "Filter by name",
+    "detailsHead": "Details",
+    "top5ending": "Top 5 stations ending at the station",
+    "top5start": "Top 5 stations starting from the station",
+    "details":{
+        "start":"Journey starts",
+        "end":"Journey ends",
+        "avgdistDep":"Avrg distance when departed",
+        "avgdistRet":"Avrg distance when returned"
+    },
+    "name": "Name",
+    "departures": "Departures",
+    "returns": "Returns",
+    "previous": "Previous",
+    "next": "Next",
+    "stationName": "Station name"
+}
