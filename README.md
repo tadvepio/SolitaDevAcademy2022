@@ -67,10 +67,13 @@ Prequisites: nodejs(latest), python, more_itertools, visual code
   https://dev.hsl.fi/citybikes/od-trips-2021/2021-05.csv
   https://dev.hsl.fi/citybikes/od-trips-2021/2021-06.csv
   https://dev.hsl.fi/citybikes/od-trips-2021/2021-07.csv
-4. Add csv files to csv-duplicate-remove folder. Type one csv file name on the script and run it. Do that for all 3.
-5. Go to database_export folder on terminal and run _npm i_
-6. Move the processed files to database-export folder. Add one filename to line 32 and run _node journey_export.js_. Repeat for all csv-files.
-7. If successfull, the data can be seen at mongoDB after all is done.
+  https://opendata.arcgis.com/datasets/726277c507ef4914b0aec3cbcfcbfafc_0.csv
+4. Add csv files to csv-duplicate-remove folder. Type one csv file name on the script and run it and repeat for all files.
+5. Remove the dot from "Duration (sec.) header on the csv-files. Mongo reads it as JSON.
+6. Go to database_export folder on terminal and run _npm i_
+7. Move the processed journey files to database-export folder. Add one filename to line 32 and run _node journey_export.js_. Repeat for all journey files.
+8. For station list, input the processed station csv file to station_export at line 30 and run node station_export.js
+9. If successfull, the data can be seen at mongoDB as journey and stations collections.
   
 <h3>Part 2: Express Api</h3>
   
@@ -114,7 +117,3 @@ Local Setup:
   3. Create .env file and put api url there: REACT_APP_API_URL = http://localhost:9000
   4. npm start
   5. Open browser at local host 9000 and you should automatically get all journeys from mongodb to your browser.
-  
-
-  
-  
