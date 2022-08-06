@@ -10,12 +10,12 @@ This project is a preassingment for Solita Devacademy fall 2022. The assingment 
 <h2>What was done</h2>
 
 <h3>Data</h3>
-
-Import data from the CSV files to a database -> Done
-Validate data -> Done
-Don't import journeys that lasted for less than ten seconds -> Done
-Don't import journeys that covered distances shorter than 10 meters -> Done
-
+<ul>
+<li>Import data from the CSV files to a database -> Done</li>
+<li>Validate data -> Done</li>
+<li>Don't import journeys that lasted for less than ten seconds -> Done</li>
+<li>Don't import journeys that covered distances shorter than 10 meters -> Done</li>
+</ul>
 <h3>Journey list</h3>
 <ul>
   <li>List journeys -> Done</li>
