@@ -19,7 +19,7 @@ This project is a preassingment for Solita Devacademy fall 2022. The assingment 
 <h3>Journey list</h3>
 <ul>
   <li>List journeys -> Done</li>
-  <li>For each journey show departure and return stations, covered distance in kilometers and duration in minutes -> Done<li/>
+  <li>For each journey show departure and return stations, covered distance in kilometers and duration in minutes -> Done</li>
   <li>Pagination -> Done</li>
   <li>Ordering per column -> Partly done</li>
   <li>Searching -> Partly done</li>
@@ -80,7 +80,7 @@ Running locally:
  
   1. On terminal, change directory to ./api
   2. Run _npm i_
-  3. Create a .env file containing mongodb url: DATABASE_URL=<your mongo url>
+  3. Create a .env file containing mongodb url: DATABASE_URL= your mongo url
   4. npm start on terminal to start the api
   
 The api has 3 different routes:
@@ -115,6 +115,6 @@ Local Setup:
   4. npm start
   5. Open browser at local host 9000 and you should automatically get all journeys from mongodb to your browser.
   
-  
+
   
   
