@@ -17,38 +17,37 @@ Don't import journeys that lasted for less than ten seconds -> Done
 Don't import journeys that covered distances shorter than 10 meters -> Done
 
 <h3>Journey list</h3>
-
--List journeys -> Done
--For each journey show departure and return stations, covered distance in kilometers and duration in minutes -> Done
--Pagination -> Done
--Ordering per column -> Partly done
--Searching -> Partly done
--Filtering -> Not done
-
+<ul>
+  <li>List journeys -> Done</li>
+  <li>For each journey show departure and return stations, covered distance in kilometers and duration in minutes -> Done<li/>
+  <li>Pagination -> Done</li>
+  <li>Ordering per column -> Partly done</li>
+  <li>Searching -> Partly done</li>
+  <li>Filtering -> Not done</li>
+</ul>
+  
 <h3>Station list</h3>
 
--List all stations -> Done
--Pagination -> Done
--Searching -> More like filtering here, but done
+<li>List all stations -> Done</li>
+<li>Pagination -> Done</li>
+<li>Searching -> More like filtering here, but done</li>
 
 <h3>Single station view</h3>
 
--Station name -> Done
--Station address -> Done
--Total number of journeys starting from the station -> Done
--Total number of journeys ending at the station -> Done
--Station location on the map -> Done
--The average distance of a journey starting from the station -> Done
--The average distance of a journey ending at the station -> Done
--Top 5 most popular return stations for journeys starting from the station -> Done
--Top 5 most popular departure stations for journeys ending at the station -> Done
--Ability to filter all the calculations per month -> Not done
-
+<li>Station name -> Done</li>
+<li>Station address -> Done</li>
+<li>Total number of journeys starting from the station -> Done</li>
+<li>Total number of journeys ending at the station -> Done</li>
+<li>Station location on the map -> Done</li>
+<li>The average distance of a journey starting from the station -> Done</li>
+<li>The average distance of a journey ending at the station -> Done</li>
+<li>Top 5 most popular return stations for journeys starting from the station -> Done</li>
+<li>Top 5 most popular departure stations for journeys ending at the station -> Done</li>
+<li>Ability to filter all the calculations per month -> Not done</li>
 
 <h3>Suprise part</h3>
 
--Runs on cloud
-
+<li>Runs on cloud</li>
 
 <h2>Local setup guide</h2>
 
@@ -85,7 +84,7 @@ Running locally:
   4. npm start on terminal to start the api
   
 The api has 3 different routes:
-  1. Journeys
+  1. Journeys:
  
   Get journeys with pagination. The url has a page and limit queries to manage pagination.
   Post method to find journeys.
