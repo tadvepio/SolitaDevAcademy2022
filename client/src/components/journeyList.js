@@ -119,9 +119,9 @@ function JourneyList() {
                     placeholder={t("departureStation")}
                     onChange={(e) => handleChange(e)} />
             {stationRecommendations && inputChange ==='Departure station name' ? 
-            <ListGroup>
-                {stationRecommendations.map((item, index) => 
-            <ListGroup.Item key={index} onClick={()=>handleField(item.Nimi, "Departure station name")}> {item.Nimi} </ListGroup.Item>
+            <ListGroup style={{overFlow:"auto", maxHeight:"0vh"}}>
+                {stationRecommendations.slice(0, 5).map((item, index) => 
+            <ListGroup.Item action key={index} onClick={()=>handleField(item.Nimi, "Departure station name")}> {item.Nimi} </ListGroup.Item>
             )}
             </ListGroup> : 
             <></>
@@ -131,9 +131,9 @@ function JourneyList() {
         <Form.Label className="text-light">{t("ReturnStation")}</Form.Label>
         <Form.Control type="text" autoComplete="off" name="Return station name" value={form.ReturnName} placeholder={t("ReturnStation")} onChange={(e) => handleChange(e)}/>
         {stationRecommendations && inputChange==='Return station name' ? 
-            <ListGroup>
-                {stationRecommendations.map((item, index) => 
-            <ListGroup.Item key={index} onClick={()=>handleField(item.Nimi, "Return station name")}> {item.Nimi} </ListGroup.Item>
+            <ListGroup style={{overFlow:"auto", maxHeight:"0vh"}}>
+                {stationRecommendations.slice(0, 5).map((item, index) => 
+            <ListGroup.Item action key={index} onClick={()=>handleField(item.Nimi, "Return station name")}> {item.Nimi} </ListGroup.Item>
             )}
             </ListGroup> : 
             <></>
@@ -211,8 +211,8 @@ function JourneyList() {
             <tr key={index}>
                 <td>{item['Departure station name']}</td>
                 <td>{item['Return station name']}</td>
-                <td>{parseFloat(item['Covered distance (m)']/1000).toFixed(3)} km</td>
-                <td>{parseFloat(item['Duration (sec)']/60).toFixed(2)} minutes</td>
+                <td>{parseFloat(item['Covered distance (m)']/1000).toFixed(3).replace('.',',')} km</td>
+                <td>{parseFloat(item['Duration (sec)']/60).toFixed(2).replace('.',',')} {t("minutes")}</td>
             </tr>)}
             </tbody>
             </Table>
