@@ -8,5 +8,6 @@
     "Search": "Tillämpa",
     "previous": "Tidigare",
     "next": "Nästa",
-    "minutes": "minuter"
+    "minutes": "minuter",
+    "noResults": "Inga resultat"
 }

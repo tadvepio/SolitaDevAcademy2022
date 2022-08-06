@@ -1,19 +1,22 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import JourneyList from './components/journeyList';
 import StationList from './components/stationList';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useTranslation } from 'react-i18next';
-import { Navbar, Container, Nav, Dropdown, Button } from "react-bootstrap";
+import { Navbar, Container, Nav, Dropdown } from "react-bootstrap";
 
 function App() {
 
   const [show, setShow] = useState('j');
-
   const { t, i18n } = useTranslation(["navbar", "journeys"]);
 
   const changeView = (name) => {
     setShow(name)
   }
+
+  useEffect( () => {
+      i18n.changeLanguage(navigator.language)
+},[i18n])
 
   return (
     <div className="bg-light">
@@ -29,9 +32,9 @@ function App() {
             <Dropdown className="ml-auto">
               <Dropdown.Toggle variant="dark">{i18n.language}</Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item onClick={() => i18n.changeLanguage("Finnish")}>Suomi</Dropdown.Item>
-                <Dropdown.Item onClick={() => i18n.changeLanguage("English")}>English</Dropdown.Item>
-                <Dropdown.Item onClick={() => i18n.changeLanguage("Swedish")}>Svenska</Dropdown.Item>
+                <Dropdown.Item onClick={() => i18n.changeLanguage("fi")}>Suomi</Dropdown.Item>
+                <Dropdown.Item onClick={() => i18n.changeLanguage("en")}>English</Dropdown.Item>
+                <Dropdown.Item onClick={() => i18n.changeLanguage("swe")}>Svenska</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </Nav>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Row, Col, Button } from "react-bootstrap";
+import { Form, Row, Col, Button, Container } from "react-bootstrap";
 import LoadingSpinner from './loadingSpinner';
 import SingleStation from './singleStation';
 import { useTranslation } from 'react-i18next';
@@ -9,21 +9,22 @@ function StationList() {
     const [page, setPage ] = useState(1)
     const [list, setList] = useState([]);
     const [loading, setLoading] = useState(false);
+    const API_URL = process.env.REACT_APP_API_URL;
 
-    const { t, i18n } = useTranslation("stations");
+    const { t } = useTranslation("stations");
     
     useEffect(() => {
-        fetch(`http://localhost:9000/stations?page=${page}&limit=20&sort=Name`)
+        fetch(`${API_URL}/stations?page=${page}&limit=20&sort=Name`)
         .then((res) => res.json())
         .then((data) => setList(data.results))
-    },[page])
+    },[page, API_URL])
 
     const nextStations = async (change) => {
         if((page+change) <= 0) {
             
         } else {
             setPage(page+(change))
-            await fetch(`http://localhost:9000/stations?page=${page+change}&limit=20&sort=Name`)
+            await fetch(`${API_URL}/stations?page=${page+change}&limit=20&sort=Name`)
             .then((res)=>res.json())
             .then((data) => setList(data.results))
         }
@@ -33,7 +34,7 @@ function StationList() {
         e.preventDefault();
         setLoading(true);
         const value = e.target.value
-        const response = await fetch(`http://localhost:9000/search`, {
+        const response = await fetch(`${API_URL}/search`, {
             method: "POST",
             mode: 'cors',
             headers: {'Content-Type': 'application/json'},
@@ -41,21 +42,24 @@ function StationList() {
         })
         const data = await response.json()
         setList(data)
-        console.log(list[0])
         setLoading(false);
     }
 
     return (
     <>
-    <h1>{t("header")}</h1>
-    <Form className="mb-5">
+    <Container className="text-center bg-white">
+    <Row className="bg-light rounded p-4">
+    <Form className="mb-5 bg-dark p-5 rounded">
+    <Row style={{fontSize: '35px'}} className="mb-3 text-light d-flex justify-content-center">{t("header")}</Row>
         <Row>
             <Col>
-            <Form.Label>{t("filter")}</Form.Label>
-            <Form.Control type="text" placeholder={t("stationName")} onChange={(e)=>handleChange(e)}/>
+            <Form.Label className="text-light">{t("filter")}</Form.Label>
+            <Form.Control className="text-center" type="text" placeholder={t("stationName")} onChange={(e)=>handleChange(e)}/>
             </Col>
         </Row>
     </Form>
+    </Row>
+    </Container>
 
     {loading ? <LoadingSpinner /> :
     <>

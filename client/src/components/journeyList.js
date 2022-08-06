@@ -11,24 +11,24 @@ function JourneyList() {
     const [form, setForm] = useState({})
     const [loading, setLoading] = useState(true);
     const [stationRecommendations, setStationRecommendations] = useState();
-    const [inputChange, setInputChange] = useState('')
-    const [sort, setSort] = useState('')
+    const [inputChange, setInputChange] = useState('');
+    const [sort, setSort] = useState('');
+    const API_URL = process.env.REACT_APP_API_URL;
 
     const searchEl = useRef();
     
-    const { t, i18n } = useTranslation("journeys");
+    const { t } = useTranslation("journeys");
 
     useEffect(() => {
         setLoading(true)
         const fetchData = async () => {
-            await fetch(`http://localhost:9000/journeys?page=${page}&limit=20`)
+            await fetch(`${API_URL}/journeys?page=${page}&limit=20`)
             .then((res) => res.json())
             .then((data) => setList(data.results))
             setLoading(false)
         }
         fetchData()
-        console.log(list)
-    },[])
+    },[API_URL, page])
 
     const nextJourneys = async (change) => {
         setLoading(true)
@@ -38,7 +38,7 @@ function JourneyList() {
             setPage(page+(change))
             setLoading(true)
             console.log(sort)
-            const response = await fetch(`http://localhost:9000/journeys?page=${page+(change)}&limit=20&sort=${sort}`, {
+            const response = await fetch(`${API_URL}/journeys?page=${page+(change)}&limit=20&sort=${sort}`, {
                 method: "POST",
                 mode: 'cors',
                 headers: {'Content-Type': 'application/json'},
@@ -55,7 +55,7 @@ function JourneyList() {
         setLoading(true)
         setPage(1)
         console.log(sort)
-        const response = await fetch(`http://localhost:9000/journeys?page=${page}&limit=20&sort=${sort}`, {
+        const response = await fetch(`${API_URL}/journeys?page=${page}&limit=20&sort=${sort}`, {
             method: "POST",
             mode: 'cors',
             headers: {'Content-Type': 'application/json'},
@@ -79,7 +79,7 @@ function JourneyList() {
         setInputChange(name)
         if (value.length >= 2)
         {
-        const response = await fetch(`http://localhost:9000/search`, {
+        const response = await fetch(`${API_URL}/search`, {
             method: "POST",
             mode: 'cors',
             headers: {'Content-Type': 'application/json'},
@@ -185,7 +185,7 @@ function JourneyList() {
 </Form>
 
     {loading ? <LoadingSpinner /> :
-    <Container>
+    <Container style={{height:"100vh"}}>
         {list.length ?
         <>
             <Row>
@@ -229,7 +229,7 @@ function JourneyList() {
         </Row> 
             </>
             
-        : (<p>No results</p>)}
+        : (<p>{t("noResults")}</p>)}
     </Container>
 
     }

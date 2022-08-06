@@ -7,9 +7,9 @@ i18n
   .init({
     fallbackLng: 'Finnish',
     resources: {
-      English: english,
-      Finnish: finnish,
-      Swedish: swedish
+      en: english,
+      fi: finnish,
+      swe: swedish
     }
 });
 

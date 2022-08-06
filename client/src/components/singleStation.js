@@ -1,6 +1,6 @@
 import React, {  useState } from 'react';
 import LoadingSpinner from './loadingSpinner';
-import { Card, Button, Collapse, Col, ListGroup, Row, Table } from "react-bootstrap";
+import { Card, Button, Collapse, Col, Row, Table } from "react-bootstrap";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import '../styles/leaflet.css';
 import { useTranslation } from 'react-i18next';
@@ -10,19 +10,19 @@ function SingleStation(item) {
     const [openCard, setOpenCard] = useState(false);
     const [details, setDetails] = useState([]);
     const [loading, setLoading] = useState(false);
+    const API_URL = process.env.REACT_APP_API_URL;
 
-    const { t, i18n } = useTranslation("stations");
+    const { t } = useTranslation("stations");
 
     const getDetails = async (stationId) => {
         if (openCard) { setOpenCard(!openCard) }
         else {
             setLoading(true);
             setOpenCard(!openCard)
-            const response = await fetch(`http://localhost:9000/details?station=${stationId}`)
+            const response = await fetch(`${API_URL}/details?station=${stationId}`)
             const data = await response.json()
             setDetails(data)
-            setLoading(false);
-            console.log(item.x)           
+            setLoading(false);           
         }
     }
 

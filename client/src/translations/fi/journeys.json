@@ -8,5 +8,6 @@
     "Search": "Hae",
     "previous": "Edellinen",
     "next": "Seuraava",
-    "minutes": "minuuttia"
+    "minutes": "minuuttia",
+    "noResults": "Ei tuloksia"
 }
