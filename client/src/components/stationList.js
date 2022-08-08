@@ -14,9 +14,11 @@ function StationList() {
     const { t } = useTranslation("stations");
     
     useEffect(() => {
-        fetch(`${API_URL}/stations?page=${page}&limit=20&sort=Name`)
-        .then((res) => res.json())
-        .then((data) => setList(data.results))
+            fetch(`${API_URL}/stations?page=${page}&limit=20&sort=Name`)
+            .then((res) => res.json())
+            .then((data) => setList(data.results))
+            .catch(err => console.log(err))
+
     },[page, API_URL])
 
     const nextStations = async (change) => {
@@ -27,6 +29,8 @@ function StationList() {
             await fetch(`${API_URL}/stations?page=${page+change}&limit=20&sort=Name`)
             .then((res)=>res.json())
             .then((data) => setList(data.results))
+            .catch(err => console.log(err))
+
         }
     }
 
@@ -34,14 +38,19 @@ function StationList() {
         e.preventDefault();
         setLoading(true);
         const value = e.target.value
-        const response = await fetch(`${API_URL}/search`, {
-            method: "POST",
-            mode: 'cors',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({value})
-        })
-        const data = await response.json()
-        setList(data)
+        try {
+            const response = await fetch(`${API_URL}/search`, {
+                method: "POST",
+                mode: 'cors',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({value})
+            })
+            const data = await response.json()
+            setList(data)
+            console.log(data)
+        } catch (err) {
+            console.log(err)
+        }
         setLoading(false);
     }
 

@@ -19,9 +19,14 @@ function SingleStation(item) {
         else {
             setLoading(true);
             setOpenCard(!openCard)
-            const response = await fetch(`${API_URL}/details?station=${stationId}`)
-            const data = await response.json()
-            setDetails(data)
+            try {
+                const response = await fetch(`${API_URL}/details?station=${stationId}`)
+                const data = await response.json()
+                setDetails(data)
+            }
+            catch(err) {
+                console.log(err)
+            }
             setLoading(false);           
         }
     }

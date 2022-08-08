@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect } from 'react';
 import JourneyList from './components/journeyList';
 import StationList from './components/stationList';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -15,6 +15,8 @@ function App() {
   }
 
   useEffect( () => {
+      navigator.language !== "fi" ? i18n.changeLanguage("en")
+      :
       i18n.changeLanguage(navigator.language)
 },[i18n])
 

@@ -2,8 +2,8 @@
     "header": "Asemat",
     "filter": "Suodata nimen mukaan",
     "detailsHead": "Yksityiskohdat",
-    "top5ending": "5 suosituinta asemaa jotka päättyvät tänne",
-    "top5start": "5 suosituinta asemaa jotka alkavat täältä",
+    "top5ending": "5 suosituinta aloitusasemaa",
+    "top5start": "5 suosituinta päätösasemaa",
     "details":{
         "start":"Lähtöjä",
         "end":"Palautuksia",

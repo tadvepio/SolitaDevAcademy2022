@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoadingSpinner from './loadingSpinner';
-import { Container, Form, Col, Row, Table, Button, ListGroup } from "react-bootstrap";
+import { Container, Form, Col, Row, Table, Button, ListGroup, Card, Collapse } from "react-bootstrap";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useTranslation } from 'react-i18next';
 
 function JourneyList() {
@@ -13,23 +14,32 @@ function JourneyList() {
     const [stationRecommendations, setStationRecommendations] = useState();
     const [inputChange, setInputChange] = useState('');
     const [sort, setSort] = useState('');
+    const [openCard, setOpenCard] = useState(true);
     const API_URL = process.env.REACT_APP_API_URL;
 
     const searchEl = useRef();
     
     const { t } = useTranslation("journeys");
 
+    {/** Get all stations when opening page */}
     useEffect(() => {
         setLoading(true)
+        setPage(1)
         const fetchData = async () => {
+            try {
+
             await fetch(`${API_URL}/journeys?page=${page}&limit=20`)
             .then((res) => res.json())
-            .then((data) => setList(data.results))
+            .then((data) => setList(data))
             setLoading(false)
+        } catch (err) {
+            console.log(err)
+        }
         }
         fetchData()
-    },[API_URL, page])
+    },[])
 
+    {/* Get pages for next and previous journey list */}
     const nextJourneys = async (change) => {
         setLoading(true)
         if((page+change) <= 0) {
@@ -45,11 +55,12 @@ function JourneyList() {
                 body: JSON.stringify(form)
             })
             const data = await response.json()
-            setList(data.results)
+            setList(data)
             setLoading(false);
         }
     }
 
+    {/* Post form to find journeys */}
     const search = async (e) => {
         e.preventDefault();
         setLoading(true)
@@ -62,20 +73,15 @@ function JourneyList() {
             body: JSON.stringify(form)
         })
         const data = await response.json()
-        setList(data.results)
+        setList(data)
         setLoading(false);
     }
 
+    {/* Gets station recommendations on search based on current value on input fields */}
     const handleChange = async (e) => {
         const target = e.target;
         const value = target.value;
         const name = target.name;
-        const formCopy = form;
-        formCopy[name] = value;
-        setForm(formCopy => ({
-            ...form,
-            ...formCopy
-        }));
         setInputChange(name)
         if (value.length >= 2)
         {
@@ -92,6 +98,7 @@ function JourneyList() {
         }
     }
 
+    {/* Clicking on suggested station will set it to form */}
     const handleField = (v,n) => {
         searchEl.current.elements[n].value = v;
         const formCopy = form;
@@ -103,13 +110,64 @@ function JourneyList() {
         setStationRecommendations([])
     }
 
+    /* Checks onBlur if suggestion is selected. Set it to form or delete keyvalue pair */
+    const checkSelected = (e) => {
+        e.preventDefault();
+        const name = e.target.name
+        const value = e.target.value
+        if (searchEl.current.elements[name].value === form[name]){
+            const formCopy = form;
+            formCopy[name] = value;
+            setForm(formCopy => ({
+                ...form,
+                ...formCopy
+            }));
+            setStationRecommendations([])
+        }
+        else {
+            searchEl.current.elements[name].value = '';
+            const formCopy = form;
+            delete formCopy[name];
+            setForm(formCopy => ({
+                ...form,
+                ...formCopy
+            }));
+            setStationRecommendations([])
+            
+        }
+    }
+
+    {/* Handle filter entries to form */}
+    const handleFilters = (e) => {
+        e.preventDefault();
+        const name = e.target.name;
+        const value = e.target.value;
+        const formCopy = form
+        if (value == '') {
+        delete formCopy[name];
+        setForm(formCopy => ({
+            ...form,
+            ...formCopy
+        })) }
+        else {
+            formCopy[name] = value;
+            setForm(formCopy => ({
+                ...form,
+                ...formCopy
+            }));
+        }
+        console.log(form)
+    }
+
     return (
     <>
     <Container className="text-center bg-white">
-    <Form ref={searchEl} onSubmit={search} className="mb-5 bg-light p-5 rounded">
+    <Form ref={searchEl} onSubmit={search} className="bg-light p-5 rounded">
     <Row className="bg-dark rounded p-4">
     <Row style={{fontSize: '35px'}} className="mb-3 text-light d-flex justify-content-center">{t("journeys")}</Row>
-        {/* Departure and return station input fields */}
+        
+        {/* Departure station input field */}
+
         <Col>
         <Form.Label className="text-light">{t("departureStation")}</Form.Label>
         <Form.Control type="text" 
@@ -117,23 +175,33 @@ function JourneyList() {
                     name="Departure station name" 
                     value={form.DepartureName} 
                     placeholder={t("departureStation")}
-                    onChange={(e) => handleChange(e)} />
+                    onChange={(e) => handleChange(e)} 
+                    onBlur={(e)=>checkSelected(e)}/>
             {stationRecommendations && inputChange ==='Departure station name' ? 
             <ListGroup style={{overFlow:"auto", maxHeight:"0vh"}}>
                 {stationRecommendations.slice(0, 5).map((item, index) => 
-            <ListGroup.Item action key={index} onClick={()=>handleField(item.Nimi, "Departure station name")}> {item.Nimi} </ListGroup.Item>
+            <ListGroup.Item action key={index} onMouseDown={()=>handleField(item.Nimi, "Departure station name")}> {item.Nimi} </ListGroup.Item>
             )}
             </ListGroup> : 
             <></>
         }
         </Col>
         <Col>
+        
+        {/* Return station input field */ }
+
         <Form.Label className="text-light">{t("ReturnStation")}</Form.Label>
-        <Form.Control type="text" autoComplete="off" name="Return station name" value={form.ReturnName} placeholder={t("ReturnStation")} onChange={(e) => handleChange(e)}/>
+        <Form.Control type="text" 
+                    autoComplete="off" 
+                    name="Return station name" 
+                    value={form.ReturnName} 
+                    placeholder={t("ReturnStation")} 
+                    onChange={(e) => handleChange(e)}
+                    onBlur={(e)=>checkSelected(e)}/>
         {stationRecommendations && inputChange==='Return station name' ? 
             <ListGroup style={{overFlow:"auto", maxHeight:"0vh"}}>
                 {stationRecommendations.slice(0, 5).map((item, index) => 
-            <ListGroup.Item action key={index} onClick={()=>handleField(item.Nimi, "Return station name")}> {item.Nimi} </ListGroup.Item>
+            <ListGroup.Item action key={index} onMouseDown={()=>handleField(item.Nimi, "Return station name")}> {item.Nimi} </ListGroup.Item>
             )}
             </ListGroup> : 
             <></>
@@ -141,63 +209,96 @@ function JourneyList() {
         </Col>
 
         {/* Sort field */}
+
         <Col>
                 <Form.Label className="text-light">{t("Sort")}</Form.Label>
                 <Form.Select name="sort" onChange={(e)=>setSort(e.target.value)} defaultValue="-">
                     <option>-</option>
-                    <option value="Covered distance (m)">{t("Covered distance")}</option>
-                    <option value="Duration (sec)">{t("Duration")}</option>
+                    <option value={["Departure station name", 1]}>{t("departureStation")} (Asc)</option>
+                    <option value={["Departure station name", -1]}>{t("departureStation")} (Desc)</option>
+                    <option value={["Return station name", 1]}>{t("ReturnStation")} (Asc)</option>
+                    <option value={["Return station name", -1]}>{t("ReturnStation")} (Desc)</option>
+                    <option value={["Covered distance (m)", -1]}>{t("Covered distance")} (Asc)</option>
+                    <option value={["Covered distance (m)", 1]}>{t("Covered distance")} (Desc)</option>
+                    <option value={["Duration (sec)", -1]}>{t("Duration")} (Asc)</option>
+                    <option value={["Duration (sec)", 1]}>{t("Duration")} (Desc)</option>
                 </Form.Select>
         </Col>
-        <Row>
-        <Col className="mt-5"><Button variant="light" type="submit" className="">{t("Search")}</Button></Col>
+
+        <Row variant="dark">
+            {/* Filters */}
         </Row>
-        {/* Filter by distance and/or duration */}
-        {/* <Row>
-            <h2>Filters</h2>
-        </Row>
-        <Row>
-            <Col>
-                <Form.Label>Distance</Form.Label>
-                <Form.Select name="Covered distance (m)" onChange={(e)=>handleChange(e)}>
-                    <option value="1000">0-1 km</option>
-                    <option value="5000">1-5 km</option>
-                    <option value="10000">5-10 km</option>
-                    <option value="20000">10-20 km</option>
-                    <option value="">more than 20 km</option>
-                </Form.Select>
-            </Col>
-            <Col>
-                <Form.Label>Duration</Form.Label>
-                <Form.Select name="Duration (sec)" onChange={(e)=>handleChange(e)}>
-                    <option value="60">0-1 min</option>
-                    <option value="600">1-10 min</option>
-                    <option value="1800">10-30 min</option>
-                    <option value="3600">30-60 min</option>
-                    <option value="">60 and more</option>
-                </Form.Select>
-            </Col>
-            <Col>
-        <Button type="submit">Search</Button>
+                        <Row className="d-flex justify-content-center text-light">Distance</Row>
+                        <Row>
+                                <Col>
+                                <Form.Label className="text-light">More than</Form.Label>
+                                <Form.Control type="number"
+                                    min="0" 
+                                    autoComplete="off" 
+                                    name="distMore" 
+                                    value={form.distMore} 
+                                    placeholder="km"
+                                    onChange={(e)=>handleFilters(e)}/>
+                                </Col>
+                                <Col>
+                                <Form.Label className="text-light">Less than</Form.Label>
+                                <Form.Control type="number"
+                                    min={0}
+                                    autoComplete="off" 
+                                    name="distLess" 
+                                    value={form.distLess} 
+                                    placeholder="km"
+                                    onChange={(e)=>handleFilters(e)}/>
+                                </Col>
+                            </Row>
+                            <Row className="d-flex justify-content-center text-light">Duration</Row>
+                            <Row>
+                                <Col>
+                                <Form.Label className="text-light">More than</Form.Label>
+                                <Form.Control 
+                                    type="number"
+                                    min="0"
+                                    autoComplete="off" 
+                                    name="durMore" 
+                                    value={form.durMore} 
+                                    placeholder="min"
+                                    onChange={(e)=>handleFilters(e)}/>
+                                </Col>
+                                <Col>
+                                <Form.Label className="text-light">Less than</Form.Label>
+                                <Form.Control 
+                                    type="number"
+                                    min="0" 
+                                    autoComplete="off" 
+                                    name="durLess" 
+                                    value={form.durLess} 
+                                    placeholder="min"
+                                    onChange={(e)=>handleFilters(e)}/>
+                                </Col>
+                            </Row>
+                            <Col className="mt-5">
+            <Button variant="light" type="submit" className="">{t("Search")}</Button>
         </Col>
-        </Row> */}
     </Row>
 </Form>
 
     {loading ? <LoadingSpinner /> :
-    <Container style={{height:"100vh"}}>
-        {list.length ?
+    <Container className="bg-light" style={{height:"100vh"}}>
+        {list ?
         <>
-            <Row>
-            <Col>
-                <Button onClick={()=>nextJourneys(-1)}>{t("previous")}</Button>
-            </Col>
-            <Col>
-                <p>Page: {page}</p>
-            </Col>
-            <Col>
-                <Button onClick={()=>nextJourneys(1)}>{t("next")}</Button>
-            </Col>
+            <Row className="mb-2">
+                <ListGroup horizontal className="d-flex justify-content-center">
+                <Col>
+                {page === 1 ? <ListGroup.Item className="list-group-item border-0"> -</ListGroup.Item> :
+                <ListGroup.Item action className="list-group-item border-0" onClick={()=>nextJourneys(-1)}><FaArrowLeft style={{color:"darkblue"}}/> {t("previous")}</ListGroup.Item>}
+                </Col>
+                <Col>
+                    <ListGroup.Item className="list-group-item border-0"> Page {page} of {list.last}</ListGroup.Item>
+                </Col>
+                <Col>{page === parseInt(list.last) ? <></> :<ListGroup.Item action className="list-group-item border-0" onClick={()=>nextJourneys(1)}>{t("next")} <FaArrowRight style={{color:"darkblue"}}/></ListGroup.Item>}
+                </Col></ListGroup>
+            </Row>
+            <Row className="mb-3">
         </Row>
             <Table striped responsive="lg">
             <tbody>
@@ -207,7 +308,7 @@ function JourneyList() {
                 <th>{t('Covered distance')}</th>
                 <th>{t('Duration')}</th>
             </tr>
-            {list.map((item, index) => 
+            {list.results.map((item, index) => 
             <tr key={index}>
                 <td>{item['Departure station name']}</td>
                 <td>{item['Return station name']}</td>
@@ -216,17 +317,20 @@ function JourneyList() {
             </tr>)}
             </tbody>
             </Table>
-            <Row>
-            <Col>
-                <Button onClick={()=>nextJourneys(-1)}>{t("previous")}</Button>
-            </Col>
-            <Col>
-            <p>Page: {page}</p>
-            </Col>
-            <Col>
-                <Button onClick={()=>nextJourneys(1)}>{t("next")}</Button>
-            </Col>
-        </Row> 
+            <Row className="mb-2">
+                <ListGroup horizontal className="d-flex justify-content-center">
+                <Col>
+                {page === 1 ? <ListGroup.Item className="list-group-item border-0"></ListGroup.Item> :
+                <ListGroup.Item action className="list-group-item border-0" onClick={()=>nextJourneys(-1)}><FaArrowLeft style={{color:"darkblue"}}/> {t("previous")}</ListGroup.Item>}
+                </Col>
+                <Col>
+                    <ListGroup.Item className="list-group-item border-0"> Page {page} of {list.last}</ListGroup.Item>
+                </Col>
+                <Col>{page === parseInt(list.last) ? <></> :<ListGroup.Item action className="list-group-item border-0" onClick={()=>nextJourneys(1)}>{t("next")} <FaArrowRight style={{color:"darkblue"}}/></ListGroup.Item>}
+                </Col></ListGroup>
+            </Row>
+            <Row className="mb-3">
+        </Row>
             </>
             
         : (<p>{t("noResults")}</p>)}
