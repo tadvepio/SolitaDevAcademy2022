@@ -14,9 +14,6 @@ module.exports = function paginatedResults(model) {
 
         if (req.method === 'POST') {
             try{
-
-            
-            console.log(req.body)
             req.body.distMore ? distMore = (parseInt(req.body.distMore)*1000) : null;
             req.body.distLess ? distLess = (parseInt(req.body.distLess)*1000) : null;
             req.body.durMore ? durMore= (parseInt(req.body.durMore)*60) : null;
@@ -25,11 +22,10 @@ module.exports = function paginatedResults(model) {
                 'Covered distance (m)': {$gt:distMore,$lt:distLess},
                 'Duration (sec)': {$gt:durMore,$lt:durLess},
             }
-            req.body[['Departure station name']] ? fields['Departure station name'] = req.body['Departure station name'] : console.log("")
-            req.body['Return station name'] ? fields['Return station name'] = req.body['Departure station name'] : console.log("")
-            console.log(distMore);
-            req.query.sort ? sort[req.query.sort.slice(0, -2).replace(",","")] = parseInt(req.query.sort.slice(-2).trim()) :
-            console.log(sort)}
+            req.body[['Departure station name']] ? fields['Departure station name'] = req.body['Departure station name'] : null;
+            req.body['Return station name'] ? fields['Return station name'] = req.body['Departure station name'] : null;
+            req.query.sort ? sort[req.query.sort.slice(0, -2).replace(",","")] = parseInt(req.query.sort.slice(-2).trim()) : null;
+            }
             catch(err){
                 res.send(err)
             }
@@ -47,7 +43,6 @@ module.exports = function paginatedResults(model) {
         try { 
             const docs = await model.find(fields).countDocuments().exec()
             results.last = Math.ceil((docs/limit))
-            console.log("all reults: "+docs)
         } catch ( err ) {
             console.log(err)
         }

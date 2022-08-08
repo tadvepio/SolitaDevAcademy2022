@@ -9,5 +9,7 @@
     "previous": "Edellinen",
     "next": "Seuraava",
     "minutes": "minuuttia",
-    "noResults": "Ei tuloksia"
+    "noResults": "Ei tuloksia",
+    "moreThan": "Enemmän kuin",
+    "lessThan": "Vähemmän kuin"
 }

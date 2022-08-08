@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoadingSpinner from './loadingSpinner';
-import { Container, Form, Col, Row, Table, Button, ListGroup, Card, Collapse } from "react-bootstrap";
+import { Container, Form, Col, Row, Table, Button, ListGroup } from "react-bootstrap";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useTranslation } from 'react-i18next';
 
@@ -9,37 +9,39 @@ function JourneyList() {
 
     const [page, setPage ] = useState(1)
     const [list, setList] = useState();
-    const [form, setForm] = useState({})
+    const [form, setForm] = useState({});
+    const [errMessage, setErrMessage] = useState(false)
     const [loading, setLoading] = useState(true);
     const [stationRecommendations, setStationRecommendations] = useState();
     const [inputChange, setInputChange] = useState('');
     const [sort, setSort] = useState('');
-    const [openCard, setOpenCard] = useState(true);
     const API_URL = process.env.REACT_APP_API_URL;
 
     const searchEl = useRef();
     
     const { t } = useTranslation("journeys");
 
-    {/** Get all stations when opening page */}
+    /** Get all stations when opening page */
     useEffect(() => {
         setLoading(true)
         setPage(1)
         const fetchData = async () => {
             try {
-
             await fetch(`${API_URL}/journeys?page=${page}&limit=20`)
             .then((res) => res.json())
             .then((data) => setList(data))
+            setErrMessage(false);
             setLoading(false)
         } catch (err) {
             console.log(err)
+            setErrMessage(true)
+            setLoading(false)
         }
         }
         fetchData()
     },[])
 
-    {/* Get pages for next and previous journey list */}
+    /* Get pages for next and previous journey list */
     const nextJourneys = async (change) => {
         setLoading(true)
         if((page+change) <= 0) {
@@ -47,7 +49,6 @@ function JourneyList() {
         } else {
             setPage(page+(change))
             setLoading(true)
-            console.log(sort)
             const response = await fetch(`${API_URL}/journeys?page=${page+(change)}&limit=20&sort=${sort}`, {
                 method: "POST",
                 mode: 'cors',
@@ -60,12 +61,11 @@ function JourneyList() {
         }
     }
 
-    {/* Post form to find journeys */}
+    /* Post form to find journeys */
     const search = async (e) => {
         e.preventDefault();
         setLoading(true)
         setPage(1)
-        console.log(sort)
         const response = await fetch(`${API_URL}/journeys?page=${page}&limit=20&sort=${sort}`, {
             method: "POST",
             mode: 'cors',
@@ -77,7 +77,7 @@ function JourneyList() {
         setLoading(false);
     }
 
-    {/* Gets station recommendations on search based on current value on input fields */}
+    /* Gets station recommendations on search based on current value on input fields */
     const handleChange = async (e) => {
         const target = e.target;
         const value = target.value;
@@ -98,7 +98,7 @@ function JourneyList() {
         }
     }
 
-    {/* Clicking on suggested station will set it to form */}
+    /* Clicking on suggested station will set it to form */
     const handleField = (v,n) => {
         searchEl.current.elements[n].value = v;
         const formCopy = form;
@@ -137,13 +137,13 @@ function JourneyList() {
         }
     }
 
-    {/* Handle filter entries to form */}
+    /* Handle filter entries to form */
     const handleFilters = (e) => {
         e.preventDefault();
         const name = e.target.name;
         const value = e.target.value;
         const formCopy = form
-        if (value == '') {
+        if (value === '') {
         delete formCopy[name];
         setForm(formCopy => ({
             ...form,
@@ -156,7 +156,6 @@ function JourneyList() {
                 ...formCopy
             }));
         }
-        console.log(form)
     }
 
     return (
@@ -214,24 +213,24 @@ function JourneyList() {
                 <Form.Label className="text-light">{t("Sort")}</Form.Label>
                 <Form.Select name="sort" onChange={(e)=>setSort(e.target.value)} defaultValue="-">
                     <option>-</option>
-                    <option value={["Departure station name", 1]}>{t("departureStation")} (Asc)</option>
-                    <option value={["Departure station name", -1]}>{t("departureStation")} (Desc)</option>
-                    <option value={["Return station name", 1]}>{t("ReturnStation")} (Asc)</option>
-                    <option value={["Return station name", -1]}>{t("ReturnStation")} (Desc)</option>
-                    <option value={["Covered distance (m)", -1]}>{t("Covered distance")} (Asc)</option>
-                    <option value={["Covered distance (m)", 1]}>{t("Covered distance")} (Desc)</option>
-                    <option value={["Duration (sec)", -1]}>{t("Duration")} (Asc)</option>
-                    <option value={["Duration (sec)", 1]}>{t("Duration")} (Desc)</option>
+                    <option value={["Departure station name", 1]}>{t("departureStation")} (abc...)</option>
+                    <option value={["Departure station name", -1]}>{t("departureStation")} (cba...)</option>
+                    <option value={["Return station name", 1]}>{t("ReturnStation")} ↓</option>
+                    <option value={["Return station name", -1]}>{t("ReturnStation")} ↑</option>
+                    <option value={["Covered distance (m)", -1]}>{t("Covered distance")} ↓</option>
+                    <option value={["Covered distance (m)", 1]}>{t("Covered distance")} ↑</option>
+                    <option value={["Duration (sec)", -1]}>{t("Duration")} ↓</option>
+                    <option value={["Duration (sec)", 1]}>{t("Duration")} ↑</option>
                 </Form.Select>
         </Col>
 
         <Row variant="dark">
             {/* Filters */}
         </Row>
-                        <Row className="d-flex justify-content-center text-light">Distance</Row>
+                        <Row className="d-flex justify-content-center text-light mt-2">{t("Covered distance")}</Row>
                         <Row>
                                 <Col>
-                                <Form.Label className="text-light">More than</Form.Label>
+                                <Form.Label className="text-light">{t("moreThan")} (km)</Form.Label>
                                 <Form.Control type="number"
                                     min="0" 
                                     autoComplete="off" 
@@ -241,7 +240,7 @@ function JourneyList() {
                                     onChange={(e)=>handleFilters(e)}/>
                                 </Col>
                                 <Col>
-                                <Form.Label className="text-light">Less than</Form.Label>
+                                <Form.Label className="text-light">{t("lessThan")} (km)</Form.Label>
                                 <Form.Control type="number"
                                     min={0}
                                     autoComplete="off" 
@@ -251,10 +250,10 @@ function JourneyList() {
                                     onChange={(e)=>handleFilters(e)}/>
                                 </Col>
                             </Row>
-                            <Row className="d-flex justify-content-center text-light">Duration</Row>
+                            <Row className="d-flex justify-content-center text-light mt-2">{t("Duration")}</Row>
                             <Row>
                                 <Col>
-                                <Form.Label className="text-light">More than</Form.Label>
+                                <Form.Label className="text-light">{t("moreThan")} (min)</Form.Label>
                                 <Form.Control 
                                     type="number"
                                     min="0"
@@ -265,7 +264,7 @@ function JourneyList() {
                                     onChange={(e)=>handleFilters(e)}/>
                                 </Col>
                                 <Col>
-                                <Form.Label className="text-light">Less than</Form.Label>
+                                <Form.Label className="text-light">{t("lessThan")} (min)</Form.Label>
                                 <Form.Control 
                                     type="number"
                                     min="0" 
@@ -334,6 +333,7 @@ function JourneyList() {
             </>
             
         : (<p>{t("noResults")}</p>)}
+        {errMessage ? <p>Api probably starting, try again in a few seconds!</p>:null}
     </Container>
 
     }
