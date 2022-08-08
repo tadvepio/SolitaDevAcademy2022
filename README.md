@@ -2,6 +2,7 @@
 The pre-assignment for Solita Dev Academy 2022
 
 Live url: https://bikejourney-client.herokuapp.com/
+The Api is on a separate address and is probably sleeping, so when you go to the site, wait a few moments for the api to start and refresh the page.
 
 <h1>Introduction</h1>
 
@@ -21,9 +22,9 @@ This project is a preassingment for Solita Devacademy fall 2022. The assingment 
   <li>List journeys -> Done</li>
   <li>For each journey show departure and return stations, covered distance in kilometers and duration in minutes -> Done</li>
   <li>Pagination -> Done</li>
-  <li>Ordering per column -> Partly done</li>
-  <li>Searching -> Partly done</li>
-  <li>Filtering -> Not done</li>
+  <li>Ordering per column -> Done</li>
+  <li>Searching -> Done</li>
+  <li>Filtering -> Done</li>
 </ul>
   
 <h3>Station list</h3>
