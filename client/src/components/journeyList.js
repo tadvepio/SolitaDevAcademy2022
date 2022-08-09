@@ -282,7 +282,7 @@ function JourneyList() {
 </Form>
 
     {loading ? <LoadingSpinner /> :
-    <Container className="bg-light" style={{height:"100vh"}}>
+    <Container className="bg-light" style={{height:"100%"}}>
         {list ?
         <>
             <Row className="mb-2">

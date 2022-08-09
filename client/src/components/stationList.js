@@ -14,25 +14,12 @@ function StationList() {
     const { t } = useTranslation("stations");
     
     useEffect(() => {
-            fetch(`${API_URL}/stations?page=${page}&limit=20&sort=Name`)
+            fetch(`${API_URL}/stations?page=${page}&limit=1000&sort=Name`)
             .then((res) => res.json())
             .then((data) => setList(data.results))
             .catch(err => console.log(err))
 
     },[page, API_URL])
-
-    const nextStations = async (change) => {
-        if((page+change) <= 0) {
-            
-        } else {
-            setPage(page+(change))
-            await fetch(`${API_URL}/stations?page=${page+change}&limit=20&sort=Name`)
-            .then((res)=>res.json())
-            .then((data) => setList(data.results))
-            .catch(err => console.log(err))
-
-        }
-    }
 
     const handleChange = async (e) => {
         e.preventDefault();
@@ -47,7 +34,6 @@ function StationList() {
             })
             const data = await response.json()
             setList(data)
-            console.log(data)
         } catch (err) {
             console.log(err)
         }
@@ -80,16 +66,6 @@ function StationList() {
             :  
             ( <div>Loading</div> )
         }
-
-        <Row>
-            <Col>
-            <Button onClick={()=>nextStations(-1)}>Previous</Button>
-            </Col>
-            <Col>
-            <p>Page: {page}</p>
-            </Col>
-            <Col><Button onClick={()=>nextStations(1)}>Next</Button></Col>
-        </Row>
         </>
     }
     </>
