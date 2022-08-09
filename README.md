@@ -18,7 +18,7 @@ This project is a preassingment for Solita Devacademy fall 2022. The assingment 
 <li>Don't import journeys that covered distances shorter than 10 meters -> Done</li>
 </ul>
 <h3>Journey list</h3>
-![journeylist](https://user-images.githubusercontent.com/32989919/183704664-703044a5-48ed-44eb-b880-e221a37afb0e.png)
+![journeylist](https://user-images.githubusercontent.com/32989919/183706001-30bee5fe-d64b-4f8d-a3b7-8918e429914a.png)
 By default, the application finds all journeys from the database, paginating 20 journeys per page.
 Searching includes departure/return stations, min/max distance/duration and ordering. The station name field suggests
 stations that already exists and the user can only input ones that do exist.
@@ -33,7 +33,8 @@ stations that already exists and the user can only input ones that do exist.
 </ul>
   
 <h3>Station list</h3>
-![stationlist](https://user-images.githubusercontent.com/32989919/183704713-5c2fd634-6745-4c9d-8dda-61c295613843.png)
+![stationlist](https://user-images.githubusercontent.com/32989919/183706046-ddb74ea6-35a0-42f6-8ae9-7374212f3eea.png)
+
 Station list with search/filter. No pagination needed. Lists all stations that are in the database.
 
 <li>List all stations -> Done</li>
