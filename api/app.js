@@ -10,6 +10,7 @@ var stationRouter = require('./routes/stations');
 var journeyRouter = require('./routes/journeys');
 var stationDetails = require('./routes/stationDetails');
 var stationSearch = require('./routes/stationSearch');
+var addNewRouter = require('./routes/addNew');
 
 var app = express();
 
@@ -31,6 +32,7 @@ app.use('/details', stationDetails);
 app.use('/stations', stationRouter);
 app.use('/search', stationSearch);
 app.use('/journeys', journeyRouter);
+app.use('/addNew', addNewRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
