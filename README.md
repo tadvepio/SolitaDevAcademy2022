@@ -41,7 +41,7 @@ stations that already exists and the user can only input ones that do exist.
 Station list with search/filter. No pagination needed. Lists all stations that are in the database.
 
 <li>List all stations -> Done</li>
-<li>Pagination -> Done</li>
+<li>Pagination -> Did it and took it out since the page loaded fine without pagination</li>
 <li>Searching -> More like filtering here, but done</li>
 
 <h3>Single station view</h3>
@@ -70,7 +70,7 @@ Single station with calculations and a map view of the station.
 Journey adding. Name fields offer suggestions similarly as in the journey search.
 
 ![addstation](https://user-images.githubusercontent.com/32989919/183705000-529f303d-d806-4612-bc92-06526ea2adf9.png)
-Adding stations with map suggestion. Drag the marker to a location and the fields will be filled with recommendations and
+Adding stations with map suggestion. Drag the marker to a location, press search and the fields will be filled with recommendations and
 correct cordinates.
 
 <h2>Local setup guide</h2>
