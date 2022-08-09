@@ -18,7 +18,8 @@ This project is a preassingment for Solita Devacademy fall 2022. The assingment 
 <li>Don't import journeys that covered distances shorter than 10 meters -> Done</li>
 </ul>
 <h3>Journey list</h3>
-![journeylist](https://user-images.githubusercontent.com/32989919/183706001-30bee5fe-d64b-4f8d-a3b7-8918e429914a.png)
+![journeylist](https://user-images.githubusercontent.com/32989919/183706362-7c8a2791-fa8c-4ed9-b98d-cecce20499c5.png)
+
 By default, the application finds all journeys from the database, paginating 20 journeys per page.
 Searching includes departure/return stations, min/max distance/duration and ordering. The station name field suggests
 stations that already exists and the user can only input ones that do exist.
@@ -33,7 +34,7 @@ stations that already exists and the user can only input ones that do exist.
 </ul>
   
 <h3>Station list</h3>
-![stationlist](https://user-images.githubusercontent.com/32989919/183706046-ddb74ea6-35a0-42f6-8ae9-7374212f3eea.png)
+![stationlist](https://user-images.githubusercontent.com/32989919/183706403-a9fdff22-44ca-4457-84df-3236693e4054.png)
 
 Station list with search/filter. No pagination needed. Lists all stations that are in the database.
 
@@ -60,6 +61,7 @@ Single station with calculations and a map view of the station.
 <h3>Suprise part</h3>
 
 <li>Runs on cloud(heroku)</li>
+<li>Localizations with finnish, english and swedish</li>
 <li>Ability to save new journeys and stations</li>
 
 ![addjourney](https://user-images.githubusercontent.com/32989919/183704960-ba908ebc-0683-47fe-9fbd-7337620354b3.png)
