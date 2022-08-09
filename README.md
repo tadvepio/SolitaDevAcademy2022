@@ -18,6 +18,11 @@ This project is a preassingment for Solita Devacademy fall 2022. The assingment 
 <li>Don't import journeys that covered distances shorter than 10 meters -> Done</li>
 </ul>
 <h3>Journey list</h3>
+![journeylist](https://user-images.githubusercontent.com/32989919/183704664-703044a5-48ed-44eb-b880-e221a37afb0e.png)
+By default, the application finds all journeys from the database, paginating 20 journeys per page.
+Searching includes departure/return stations, min/max distance/duration and ordering. The station name field suggests
+stations that already exists and the user can only input ones that do exist.
+
 <ul>
   <li>List journeys -> Done</li>
   <li>For each journey show departure and return stations, covered distance in kilometers and duration in minutes -> Done</li>
@@ -28,12 +33,17 @@ This project is a preassingment for Solita Devacademy fall 2022. The assingment 
 </ul>
   
 <h3>Station list</h3>
+![stationlist](https://user-images.githubusercontent.com/32989919/183704713-5c2fd634-6745-4c9d-8dda-61c295613843.png)
+Station list with search/filter. No pagination needed. Lists all stations that are in the database.
 
 <li>List all stations -> Done</li>
 <li>Pagination -> Done</li>
 <li>Searching -> More like filtering here, but done</li>
 
 <h3>Single station view</h3>
+
+![singlestation](https://user-images.githubusercontent.com/32989919/183704725-b0bc5cb3-ac5b-4407-8737-37b1c3565fad.png)
+Single station with calculations and a map view of the station.
 
 <li>Station name -> Done</li>
 <li>Station address -> Done</li>
@@ -50,6 +60,13 @@ This project is a preassingment for Solita Devacademy fall 2022. The assingment 
 
 <li>Runs on cloud(heroku)</li>
 <li>Ability to save new journeys and stations</li>
+
+![addjourney](https://user-images.githubusercontent.com/32989919/183704960-ba908ebc-0683-47fe-9fbd-7337620354b3.png)
+Journey adding. Name fields offer suggestions similarly as in the journey search.
+
+![addstation](https://user-images.githubusercontent.com/32989919/183705000-529f303d-d806-4612-bc92-06526ea2adf9.png)
+Adding stations with map suggestion. Drag the marker to a location and the fields will be filled with recommendations and
+correct cordinates.
 
 <h2>Local setup guide</h2>
 
@@ -119,3 +136,4 @@ Local Setup:
   3. Create .env file and put api url there: REACT_APP_API_URL = http://localhost:9000
   4. npm start
   5. Open browser at local host 9000 and you should automatically get all journeys from mongodb to your browser.
+  
