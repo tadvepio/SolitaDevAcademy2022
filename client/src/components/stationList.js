@@ -17,7 +17,6 @@ function StationList() {
             .then((res) => res.json())
             .then((data) => setList(data.results))
             .catch(err => console.log(err))
-
     },[API_URL])
 
     const handleChange = async (e) => {

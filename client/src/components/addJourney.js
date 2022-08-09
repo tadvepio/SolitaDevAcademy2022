@@ -106,7 +106,12 @@ function AddJourney() {
             body: JSON.stringify(form)
         })
         const data = await response.json()
-        console.log(data)
+        if (data === "Success") {
+            alert("Document saved successfully")
+        } else {
+            alert("Something went wrong")
+        }
+        window.location.reload();
     }
 
     return(

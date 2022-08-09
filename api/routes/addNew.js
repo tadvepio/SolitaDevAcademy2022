@@ -10,7 +10,6 @@ router.post('/journey', addEntry(Journey), (req, res) => {
 })
 
 router.post('/station', addEntry(Station), (req, res) => {
-    res.msg = "hi"
     res.json(res.msg)
 })
 

@@ -72,8 +72,8 @@ function JourneyList() {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(form)
         })
-        const data = await response.json()
-        setList(data)
+        const data = await response.json();
+        setList(data);
         setLoading(false);
     }
 
