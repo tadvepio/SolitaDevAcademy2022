@@ -48,7 +48,8 @@ This project is a preassingment for Solita Devacademy fall 2022. The assingment 
 
 <h3>Suprise part</h3>
 
-<li>Runs on cloud</li>
+<li>Runs on cloud(heroku)</li>
+<li>Ability to save new journeys and stations</li>
 
 <h2>Local setup guide</h2>
 
