@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Row, Col, Button, Container } from "react-bootstrap";
+import { Form, Row, Col, Container } from "react-bootstrap";
 import LoadingSpinner from './loadingSpinner';
 import SingleStation from './singleStation';
 import { useTranslation } from 'react-i18next';
 
 function StationList() {
 
-    const [page, setPage ] = useState(1)
     const [list, setList] = useState([]);
     const [loading, setLoading] = useState(false);
     const API_URL = process.env.REACT_APP_API_URL;
@@ -14,12 +13,12 @@ function StationList() {
     const { t } = useTranslation("stations");
     
     useEffect(() => {
-            fetch(`${API_URL}/stations?page=${page}&limit=1000&sort=Name`)
+            fetch(`${API_URL}/stations?limit=1000&sort=Name`)
             .then((res) => res.json())
             .then((data) => setList(data.results))
             .catch(err => console.log(err))
 
-    },[page, API_URL])
+    },[API_URL])
 
     const handleChange = async (e) => {
         e.preventDefault();
