@@ -67,13 +67,19 @@ Single station with calculations and a map view of the station.
 <li>Localizations with finnish, english and swedish</li>
 <li>Ability to save new journeys and stations</li>
 
+<h4>Add a journey</h4>
+
 ![addjourney](https://user-images.githubusercontent.com/32989919/183859341-814f20f9-8cca-4d91-98e2-7c194b304c55.png)
 
-Journey adding. Name fields offer suggestions similarly as in the journey search.
+Name fields offer suggestions similarly as in the journey search.
+
+<h4>Add a station</h4>
 
 ![addstation](https://user-images.githubusercontent.com/32989919/183859370-012fce27-d200-47e2-9458-3b22a420d3c6.png)
-Adding stations with map suggestion. Drag the marker to a location, press search and the fields will be filled with recommendations and
-correct cordinates.
+
+Map suggestion. Drag the marker to a location, press search and the fields will be filled with recommendations and
+correct cordinates. FID and ID are automatically set on serverside, by finding the max value and incrementing 1.
+
 
 <h2>Local setup guide</h2>
 
