@@ -2,7 +2,7 @@
 The pre-assignment for Solita Dev Academy 2022
 
 Live url: https://bikejourney-client.herokuapp.com/
-The Api is on a separate address and is probably sleeping, so when you go to the site, wait a few moments for the api to start and refresh the page.
+Heroku shuts the servers down when not used and restarts when accessed. If the page doesn't open, wait a few seconds and try again.
 
 <h1>Introduction</h1>
 
@@ -19,7 +19,7 @@ This project is a preassingment for Solita Devacademy fall 2022. The assingment 
 </ul>
 <h3>Journey list</h3>
 
-![journeylist](https://user-images.githubusercontent.com/32989919/183706362-7c8a2791-fa8c-4ed9-b98d-cecce20499c5.png)
+![journeylist](https://user-images.githubusercontent.com/32989919/183859178-5796177b-d0ca-496d-8f47-23f0a5f00e00.png)
 
 By default, the application finds all journeys from the database, paginating 20 journeys per page.
 Searching includes departure/return stations, min/max distance/duration and ordering. The station name field suggests
@@ -36,7 +36,8 @@ stations that already exists and the user can only input ones that do exist.
   
 <h3>Station list</h3>
 
-![stationlist](https://user-images.githubusercontent.com/32989919/183706403-a9fdff22-44ca-4457-84df-3236693e4054.png)
+![stationlist](https://user-images.githubusercontent.com/32989919/183859215-c6488c3a-abfb-4766-9b4f-c858d2437c24.png)
+
 
 Station list with search/filter. No pagination needed. Lists all stations that are in the database.
 
@@ -46,7 +47,7 @@ Station list with search/filter. No pagination needed. Lists all stations that a
 
 <h3>Single station view</h3>
 
-![singlestation](https://user-images.githubusercontent.com/32989919/183704725-b0bc5cb3-ac5b-4407-8737-37b1c3565fad.png)
+![singlestation](https://user-images.githubusercontent.com/32989919/183859271-2f9b1329-3a85-40bf-9a37-cda5cd2bc360.png)
 Single station with calculations and a map view of the station.
 
 <li>Station name -> Done</li>
@@ -66,10 +67,11 @@ Single station with calculations and a map view of the station.
 <li>Localizations with finnish, english and swedish</li>
 <li>Ability to save new journeys and stations</li>
 
-![addjourney](https://user-images.githubusercontent.com/32989919/183704960-ba908ebc-0683-47fe-9fbd-7337620354b3.png)
+![addjourney](https://user-images.githubusercontent.com/32989919/183859341-814f20f9-8cca-4d91-98e2-7c194b304c55.png)
+
 Journey adding. Name fields offer suggestions similarly as in the journey search.
 
-![addstation](https://user-images.githubusercontent.com/32989919/183705000-529f303d-d806-4612-bc92-06526ea2adf9.png)
+![addstation](https://user-images.githubusercontent.com/32989919/183859370-012fce27-d200-47e2-9458-3b22a420d3c6.png)
 Adding stations with map suggestion. Drag the marker to a location, press search and the fields will be filled with recommendations and
 correct cordinates.
 
