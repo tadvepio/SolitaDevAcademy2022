@@ -1,0 +1,20 @@
+{
+    "addJourney": "Lisää uusi matka",
+    "addStation": "Lisää uusi asema",
+    "depDate": "Lähtöaika",
+    "retDate": "Palautusaika",
+    "depStat": "Lähtöasema",
+    "retStation": "Palautusasema",
+    "distance": "Matkan pituus",
+    "submit": "Tallenna",
+    "msgSucc": "Matka tallennettu!",
+    "msgFail": "Jokin meni pieleen",
+    "addressFi": "Osoite",
+    "addressSwe": "Adress(sve)",
+    "city": "Kaupunki",
+    "capacity": "Kapasiteetti",
+    "lng": "Pituusaste (x)",
+    "lat": "Leveysaste (y)",
+    "guide": "Siirrä merkkiä haluamaasi paikkaan ja paina etsi nappia. Kartta antaa suositukset paikan mukaan!",
+    "search": "Etsi"
+}

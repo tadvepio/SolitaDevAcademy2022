@@ -319,7 +319,7 @@ function JourneyList() {
             <Row className="mb-2">
                 <ListGroup horizontal className="d-flex justify-content-center">
                 <Col>
-                {page === 1 ? <ListGroup.Item className="list-group-item border-0"></ListGroup.Item> :
+                {page === 1 ? <ListGroup.Item className="list-group-item border-0">-</ListGroup.Item> :
                 <ListGroup.Item action className="list-group-item border-0" onClick={()=>nextJourneys(-1)}><FaArrowLeft style={{color:"darkblue"}}/> {t("previous")}</ListGroup.Item>}
                 </Col>
                 <Col>
@@ -333,7 +333,7 @@ function JourneyList() {
             </>
             
         : (<p>{t("noResults")}</p>)}
-        {errMessage ? <p>Api probably starting, try again in a few seconds!</p>:null}
+        {errMessage ? <p>Api probably waking up from a nap. Try again in a few seconds!</p>:null}
     </Container>
 
     }

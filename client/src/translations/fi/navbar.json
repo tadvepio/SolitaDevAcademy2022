@@ -1,5 +1,8 @@
 {
     "header": "HSL Pyörämatka haku",
     "navJourneys": "Matkat",
-    "navStations": "Asemat"
+    "navStations": "Asemat",
+    "add": "Lisää",
+    "newStation": "Uusi asema",
+    "newJourney": "Uusi matka"
 }

@@ -1,0 +1,20 @@
+{
+    "addJourney": "Add a new journey",
+    "addStation": "Add a new station",
+    "depDate": "Departure date/time",
+    "retDate": "Return date/time",
+    "depStat": "Departure station",
+    "retStation": "Return station",
+    "distance": "Covered distance (m)",
+    "submit": "Submit",
+    "msgSucc": "Document saved successfully",
+    "msgFail": "Something went wrong",
+    "addressFi": "Address(fi)",
+    "addressSwe": "Address(swe)",
+    "city": "City",
+    "capacity": "Capacity",
+    "lng": "Longtitude",
+    "lat": "Latitude",
+    "guide": "Drag the marker to a spot and press search. It will give you the coordinates and suggestions!",
+    "search": "Search"
+}

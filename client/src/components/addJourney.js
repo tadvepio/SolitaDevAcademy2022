@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 function AddJourney() {
 
-    const { t } = useTranslation("journeys");
+    const { t } = useTranslation("addnew");
 
     const API_URL = process.env.REACT_APP_API_URL;
     const [form, setForm] = useState(
@@ -21,6 +21,7 @@ function AddJourney() {
     const [stationRecommendations, setStationRecommendations] = useState();
     const searchEl = useRef();
     const [inputChange, setInputChange] = useState('');
+    const [loading, setLoading] = useState(false)
     
     const handleField = (v,n) => {
         
@@ -99,6 +100,7 @@ function AddJourney() {
 
     const submit = async (e) => {
         e.preventDefault();
+        setLoading(true)
         const response = await fetch(`${API_URL}/addNew/journey`, {
             method: "POST",
             mode: 'cors',
@@ -107,36 +109,37 @@ function AddJourney() {
         })
         const data = await response.json()
         if (data === "Success") {
-            alert("Document saved successfully")
+            alert(t("msgSucc"))
         } else {
-            alert("Something went wrong")
+            alert(t("msgFail"))
         }
+        setLoading(false)
         window.location.reload();
     }
 
     return(
         <>
-        <Container>
+        <Container style={{height:"100vh"}}>
             <Form onSubmit={(e)=>submit(e)} ref={searchEl} className="bg-light p-5 rounded">
     <Row className="bg-dark rounded p-4">
         <Row style={{fontSize: '35px'}} className="mb-3 text-light d-flex justify-content-center">
-            Add journey
+            {t("addJourney")}
         </Row>
         <Row>
             <Col>
                 <Form.Label className="text-light">
-                    Departure datetime
+                    {t("depDate")}
                 </Form.Label>
                 <Form.Control autoComplete="off" type="datetime-local" max={form.Return} required={true} name='Departure' onChange={(e) => handleDateTime(e)}/>
             </Col>
             <Col>
-                <Form.Label className="text-light">Return datetime</Form.Label>
+                <Form.Label className="text-light">{t("retDate")}</Form.Label>
                 <Form.Control autoComplete="off" type="datetime-local" min={form.Departure} required={true} name='Return' onChange={(e) => handleDateTime(e)}/>
             </Col>
         </Row>
         <Row>
             <Col>
-                <Form.Label className="text-light">Departure station name</Form.Label>
+                <Form.Label className="text-light">{t("depStat")}</Form.Label>
                 <Form.Control 
                 value={form.DepartureName}
                 autoComplete="off"
@@ -154,7 +157,7 @@ function AddJourney() {
                 }
             </Col>
             <Col>
-                <Form.Label className="text-light">Return station name</Form.Label>
+                <Form.Label className="text-light">{t("retStation")}</Form.Label>
                 <Form.Control 
                 value={form.ReturnName}
                 autoComplete="off" 
@@ -174,11 +177,13 @@ function AddJourney() {
         </Row>
         <Row>
             <Col>
-                <Form.Label className="text-light">Covered distance (meters)</Form.Label>
+                <Form.Label className="text-light">{t("distance")}</Form.Label>
                 <Form.Control autoComplete="off" name="Covered distance (m)" type="number" required={true} onChange={(e)=> handleDistance(e)}/>
             </Col>
             <Col className="mt-5">
-                <Button variant="light" type="submit" className="">submit</Button>
+                {loading? <LoadingSpinner /> :
+                <Button variant="light" type="submit" className="">{t("submit")}</Button>
+                }
             </Col>
         </Row>
     </Row>

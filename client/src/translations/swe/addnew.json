@@ -1,0 +1,20 @@
+{
+    "addJourney": "Lägg till en ny resor",
+    "addStation": "Lägg till en ny station",
+    "depDate": "Avgångs datum och tid",
+    "retDate": "Retur datum och tid",
+    "depStat": "Avgångsstation",
+    "retStation": "Returlägestation",
+    "distance": "Resans distans (m)",
+    "submit": "Skicka",
+    "msgSucc": "Dokumentet har sparats!",
+    "msgFail": "Något gick fel",
+    "addressFi": "Adress(fi)",
+    "addressSwe": "Adress(sw)",
+    "city": "Stad(fi)",
+    "capacity": "Kapacitet",
+    "lng": "Longtitud (x)",
+    "lat": "Latitud (y)",
+    "guide": "Dra markören till en plats och tryck på sök. Det kommer att ge dig koordinater och förslag!",
+    "search": "Sök"
+}

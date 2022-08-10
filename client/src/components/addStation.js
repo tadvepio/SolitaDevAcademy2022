@@ -1,8 +1,8 @@
 import React, { useState, useRef, useMemo } from 'react';
-import { Form, Row, Col, Button, ListGroup, Container } from "react-bootstrap";
-import LoadingSpinner from './loadingSpinner';
+import { Form, Row, Col, Button, Container } from "react-bootstrap";
 import { useTranslation } from 'react-i18next';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import LoadingSpinner from './loadingSpinner';
 
 function AddStation() {
 
@@ -22,8 +22,10 @@ function AddStation() {
         'y': '',
     });
 
-    const API_URL = process.env.REACT_APP_API_URL;
+    const { t } = useTranslation("addnew");
 
+    const API_URL = process.env.REACT_APP_API_URL;
+    const [loading, setLoading] = useState(false);
     const formRef = useRef();
 
     const center = {
@@ -80,7 +82,7 @@ function AddStation() {
         let name = e.target.name
         let value = e.target.value
         const formCopy = form
-        form[name] = value;
+        formCopy[name] = value;
         setForm(formCopy => ({
             ...form,
             ...formCopy
@@ -90,6 +92,7 @@ function AddStation() {
 
     const submit = async (e) => {
         e.preventDefault();
+        setLoading(true)
         const response = await fetch(`${API_URL}/addNew/station`, {
             method: "POST",
             mode: 'cors',
@@ -98,19 +101,20 @@ function AddStation() {
         })
         const data = await response.json()
         if (data === "Success") {
-            alert(data)
+            alert(t("msgSucc"))
         } else {
-            alert(data)
+            alert(t("msgFail"))
         }
+        setLoading(false)
         window.location.reload();
     }
 
     return(
         <>
-            <Container>
+            <Container className="bg-light" style={{height:"100vh"}}>
                 <Form onSubmit={(e)=>submit(e)} ref={formRef} className="bg-light p-5 rounded">
                 <Row style={{fontSize: '35px'}} className="bg-dark rounded p-4 text-light text-center">
-                    Add Station
+                    {t("addStation")}
                 </Row>
                     <Row className="mt-3">
                         <Col>
@@ -127,34 +131,38 @@ function AddStation() {
                     </Col>
                     <Row>
                     <Col>
-                    <Form.Label>Osoite</Form.Label>
+                    <Form.Label>{t("addressFi")}</Form.Label>
                     <Form.Control value={form.Osoite} type="text" name="Osoite" onChange={(e)=>handleChange(e)}></Form.Control>
                     </Col>
                     <Col>
-                    <Form.Label>Adress</Form.Label>
+                    <Form.Label>{t("addressSwe")}</Form.Label>
                     <Form.Control value={form.Osoite} type="text" name="Adress" onChange={(e)=>handleChange(e)}></Form.Control>
                     </Col>
                     <Col>
-                    <Form.Label>Kaupunki</Form.Label>
+                    <Form.Label>{t("city")}</Form.Label>
                     <Form.Control value={form.Kaupunki} type="text" name="Kaupunki" onChange={(e)=>handleChange(e)}></Form.Control>
                     </Col>
                     </Row>
                     </Row>
                     <Row>
                         <Col>
-                    <Form.Label>Kapasiteetti</Form.Label>
+                    <Form.Label>{t("capacity")}</Form.Label>
                     <Form.Control value={form.Kapasiteet} type="text" name="Kapasiteet" onChange={(e)=>handleChange(e)}></Form.Control>
                     </Col><Col>
-                        <Form.Label>Koordinaatti x</Form.Label>
+                        <Form.Label>{t("lat")}</Form.Label>
                         <Form.Control value={form.x} type="text" name="x" onChange={(e)=>handleChange(e)}></Form.Control>
                         </Col>
                         <Col>
-                    <Form.Label>Koordinaatti y</Form.Label>
+                    <Form.Label>{t("lng")}</Form.Label>
                     <Form.Control value={form.y} type="text" name="y" onChange={(e)=>handleChange(e)}></Form.Control>
                     </Col>
                     </Row>
-                    <Button type="submit">Save</Button>
+                    {loading ? <LoadingSpinner /> :
+                    <Button className="mt-5" type="submit">{t("submit")}</Button>
+                    }
                 </Form>
+            <p>{t("guide")}</p>
+            <Row className="px-3 mt-2" style={{display: 'flex', justifyContent: "center"}}>
             <MapContainer center={center} zoom={14} scrollWheelZoom={false}>
                     <TileLayer
                         attribution='<a href="https://www.openstreetmap.org/copyright">'
@@ -163,7 +171,8 @@ function AddStation() {
                     <Marker position={position} draggable={true} eventHandlers={eventHandlers} ref={markerRef}>
                     </Marker>
                 </MapContainer>
-                <button onClick={(e)=>search(e)}>Search</button>
+                <Button className="mb-5" onClick={(e)=>search(e)}>{t("search")}</Button>
+            </Row>
             </Container>
         </>
     )  

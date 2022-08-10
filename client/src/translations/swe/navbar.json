@@ -1,5 +1,8 @@
 {
     "header": "HSL Cykelresor Sök",
     "navJourneys": "Resor",
-    "navStations": "Stationen"
+    "navStations": "Stationen",    
+    "add": "Lägg till en",
+    "newStation": "Ny station",
+    "newJourney": "Ny resor"
 }

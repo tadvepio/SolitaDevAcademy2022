@@ -1,5 +1,8 @@
 {
     "header": "HSL Bikejourney search",
     "navJourneys": "Journeys",
-    "navStations": "Stations"
+    "navStations": "Stations",
+    "add": "Add",
+    "newStation": "New station",
+    "newJourney": "New journey"
 }
